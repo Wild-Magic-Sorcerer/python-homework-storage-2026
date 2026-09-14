@@ -1,4 +1,4 @@
-Репозиторий решённых домашних заданий
+<img width="1425" height="797" alt="image" src="https://github.com/user-attachments/assets/eaf7e6be-46f5-499a-a8b1-c8af790349f4" />Репозиторий решённых домашних заданий
 
 ### "**Программирование Python**" 
 
@@ -10,30 +10,38 @@
 
 1. Сделать форк оригинального репозитория.
   Для этого необходимо нажать Fork → Create New Fork.
-<img width="1425" height="797" alt="1" src="https://github.com/user-attachments/assets/8ef352f1-deca-4a68-81e6-941e7c7ae98e" />
+<img width="1425" height="797" alt="image" src="https://github.com/user-attachments/assets/af832a66-7f60-401f-9891-8ea3d04464a0" />
+
 
 2. Заполнить поля **Repository name** и **Description** согласно принципу здравого смысла и нажать кнопку "Create fork".  
-<img width="810" height="525" alt="2" src="https://github.com/user-attachments/assets/193ce7cb-ce72-406e-84db-f04ef5dde949" />
+<img width="810" height="525" alt="image" src="https://github.com/user-attachments/assets/be8ec76a-165d-4eef-be07-fafadc398fc9" />
+
 
 
 ## Пошаговая инструкция: Загрузка решений на проверку
 1. На компьютере создать директорию с названием ФИО студента — в ней вы должны выкладывать свою домашнюю работу. Директории с лабораторной работой должны быть подписаны по шаблону "LABXX", где XX - номер лабораторной работы.  
 2. В директорию с лабораторной работой поместите **все** решенные задания по этой лабораторной. **Лабораторные работы с отсутствующими заданиями приниматься не будут.** Постарайтесь давайть файлам в директории более-менее адекватные названия, соответвующие выполняемым заданиям (например, по типу "taskXX.py").  
 3. Чтобы загрузить задание необходимо выбрать "Add file", в котором выбрать пункт "Upload files".
-  <img width="1354" height="801" alt="3" src="https://github.com/user-attachments/assets/299f4ccc-b301-4c34-bd5c-749c28d7a6f4" />
+  <img width="1354" height="801" alt="image" src="https://github.com/user-attachments/assets/20e08a9c-d58c-4bb0-9a39-12e06e539979" />
+
 
 4. Загрузите ваши файлы и директории. Для этого необходимо перенести директорию с лабораторной работой мышкой в появившееся поле браузера. В разделе "Commit changes" указать **ФИО студента** и **название лабораторной работы**. В описании добавить дополнительную информацию при необходимости.
-<img width="1253" height="819" alt="4" src="https://github.com/user-attachments/assets/b6c21abd-cbb1-41a0-8338-dabdd98a61d7" />
+<img width="1253" height="819" alt="image" src="https://github.com/user-attachments/assets/1beddd1a-95e7-49eb-ac2a-39be1eadaa33" />
+
 
 5. Чтобы отправить домашнее задание на проверку, необходимо нажать "Contribute" → "Open Pull Request". Иногда требуется синхронизировать форк перед созданием пул реквеста.
-   <img width="1242" height="806" alt="5" src="https://github.com/user-attachments/assets/ac8871f5-af92-45f7-9afd-6ca3a1667a8f" />
+<img width="1242" height="806" alt="image" src="https://github.com/user-attachments/assets/53d9b193-ca45-4e64-bfea-4b04d844981a" />
+
 
 6. Подписываем пул реквест (по умолчанию будет текст идентичный последнему коммиту) и нажимаем кнопку "Create pull request".
-  <img width="1259" height="813" alt="7" src="https://github.com/user-attachments/assets/638e3ae6-6bef-471d-bbf1-55fcc014fd06" />
+<img width="1259" height="813" alt="image" src="https://github.com/user-attachments/assets/9a882543-aa03-4a07-8a97-aac0cb79616c" />
+
 
 
 7. Далее в специальном окне будет проходить процедура вашей защиты лабораторной работы у преподавателя. В случае каких-либо недочётов, будет требоваться изменение загружаемых файлов, чтобы получить одобрение.
-   <img width="1195" height="757" alt="7" src="https://github.com/user-attachments/assets/e9aa04b3-76d6-45f0-8d09-380dfaa0fb91" />
+<img width="1195" height="757" alt="image" src="https://github.com/user-attachments/assets/7b4fa7b3-5ba7-4e20-8d8c-68eafbdf4ba2" />
+
 
 8. Все pull requests можно найти на странице репозитория во вкладке "Pull requests".
-   <img width="986" height="94" alt="8" src="https://github.com/user-attachments/assets/59da9c3a-f652-4dd6-ba66-ca78f6f7e3ef" />
+<img width="986" height="94" alt="image" src="https://github.com/user-attachments/assets/29574934-4304-4d07-b15e-c13a2d9b411f" />
+
