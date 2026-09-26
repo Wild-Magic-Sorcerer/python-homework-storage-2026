@@ -10,7 +10,7 @@ def different_numbers(user_data):
     return nums
 
 if __name__ == '__main__':
-    user_input = input("Введите что-то через пробел(желательно числа):\n")
+    user_input = input("Введите что-то через пробел (желательно числа):\n")
     user_data = user_input.split()
     nums = different_numbers(user_data)
     if not nums:
