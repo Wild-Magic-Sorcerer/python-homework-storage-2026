@@ -14,6 +14,7 @@ def valid_grade(s_name, course_name):
 
 if __name__ == "__main__":
     all_students_grade = []
+    students_names = []
 
     while True:
         student_name = input('Введите имя студента (или Enter для завершения):\n')
@@ -21,6 +22,12 @@ if __name__ == "__main__":
         if student_name == '':
             print('Список студентов завершен')
             break
+
+        if student_name.lower() in students_names:
+            print('Оценки этого студента уже были записаны')
+            continue
+
+        students_names.append(student_name.lower())
 
         one_student_grade = []
         for course in courses:
@@ -38,3 +45,4 @@ if __name__ == "__main__":
             print(f'За предмет {courses[i]} средний балл - {average_score}, '
                   f'максимальная оценка - {max_grade}, '
                   f'минимальная оценка - {min_grade}')
+            
