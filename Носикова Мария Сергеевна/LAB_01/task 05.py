@@ -12,7 +12,7 @@ if __name__ == '__main__':
             a = float(input('Введите первый катет:'))
             b = float(input('Введите второй катет:'))
             result = find_hypotenuse(a, b)
-            print(f'Гипотенуза трегольника равна = {result}')
+            print(f'Гипотенуза трегольника равна = {result:.2f}')
         except ValueError:
             print('Ошибка: нужно ввести число!')
     elif choice == '2':
