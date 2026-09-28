@@ -8,14 +8,24 @@ if __name__ == '__main__':
     print("2 - Найти катет (известны гипотенуза и катет)")
     choice = input('Ваш выбор:')
     if choice == '1':
-        a = float(input('Введите первый катет:'))
-        b = float(input('Введите второй катет:'))
-        result = find_hypotenuse(a, b)
-        print(f'Гипотенуза трегольника равна = {result}')
+        try:
+            a = float(input('Введите первый катет:'))
+            b = float(input('Введите второй катет:'))
+            result = find_hypotenuse(a, b)
+            print(f'Гипотенуза трегольника равна = {result}')
+        except ValueError:
+            print('Ошибка: нужно ввести число!')
     elif choice == '2':
-        a = float(input('Введите известный катет:'))
-        c = float(input('Введите гипотенузу:'))
-        result = find_cathetus(a, c)
-        print(f'Второй катет трегольника равен = {result}')
-    else: 
-        print('При вводе выбора произошла ошибка. Попробуйте еще раз')
+        try:
+            a = float(input('Введите известный катет:'))
+            c = float(input('Введите гипотенузу:'))
+            if a >= c:
+                print('Ошибка: катет должен быть меньше гипотенузы!')
+            else:
+                result = find_cathetus(a, c)
+                print(f'Второй катет треугольника равен = {result:.2f}')
+        except ValueError:
+            print('Ошибка: нужно ввести число!')
+    else:
+        print('Неверный выбор!')
+        
