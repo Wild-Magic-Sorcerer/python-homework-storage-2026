@@ -12,4 +12,4 @@ def counter(var):
 if __name__ == '__main__':
      var = input('Введите числа через пробел:')
      counter(var)
-     
+ 
