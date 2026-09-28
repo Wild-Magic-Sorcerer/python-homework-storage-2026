@@ -1,4 +1,4 @@
-
+#!/usr/bin/env python3
 
 def v_gip(a,b):
     gip = (a**2 + b**2)**0.5
