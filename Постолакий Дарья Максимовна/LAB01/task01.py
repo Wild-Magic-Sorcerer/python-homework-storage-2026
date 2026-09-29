@@ -18,5 +18,6 @@ if __name__ == '__main__':
     elif len(nums) == len(set(nums)):
         print("Все числа различны")
     else:
-        print("Есть повторяющиеся числа")
-
+        duplicates = [num for num in set(nums) if nums.count(num) > 1]
+        duplicates.sort()
+        print(f"Есть повторяющиеся числа:", *duplicates)

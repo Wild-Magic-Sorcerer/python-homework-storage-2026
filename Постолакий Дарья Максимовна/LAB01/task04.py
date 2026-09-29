@@ -5,13 +5,24 @@ SHIFR = {i + 1: letter for i, letter in enumerate(LETTERS)}
 
 def encode_text(text): # Текст - числа
     result = []
-    for symbol in text.lower():
-        if symbol in ALPHABET:
-            result.append(str(ALPHABET[symbol]))
-        elif symbol.isspace():
-            result.append("_") # continue
+    for word in text.lower().split():
+        clean_word = word.strip(".,!?;:")
+        punctuation = word[len(clean_word):]
+        if clean_word.isdigit():
+            result.append(clean_word)
+            if punctuation:
+                result.append(punctuation)
         else:
-            result.append(symbol)
+            for symbol in clean_word:
+                if symbol in ALPHABET:
+                    result.append(str(ALPHABET[symbol]))
+                else:
+                    result.append(symbol)
+            result.append("_")
+            if punctuation:
+                result.append(punctuation)
+    if result and result[-1] == "_":
+        result.pop()
     return ' '.join(result)
 
 def decode_text(text): # Числа - текст
@@ -22,12 +33,12 @@ def decode_text(text): # Числа - текст
             if number in SHIFR:
                 result.append(SHIFR[number])
             else:
-                print(f"Предупреждение: числа {number} нет в шифре, пропускаю")
+                result.append(token)
         elif token == "_":
             result.append(" ")
         else:
             result.append(token)
-    return ''.join(result)
+    return ' '.join(result)
 
 if __name__ == '__main__':
     print("Выберите режим:\n1 — зашифровать текст (буквы - числа)\n2 — расшифровать числа (числа - буквы)")

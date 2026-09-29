@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-COURSES = ["Физика", "История", "Химия", "Ботаника", "Английский"]
+COURSES = ("Физика", "История", "Химия", "Ботаника", "Английский")
 
 def read_grade(course):
     while True:
         subject = input(f"{course}: ")
-        if not subject.lstrip('-').isdigit():
-            print("Это не целое число(или не число), попробуйте снова")
+        if not subject.isdigit(): #.lstrip('-')
+            print("Это не целое/не положительное число(или не число), попробуйте снова")
             continue
         grade = int(subject)
         if 3 <= grade <= 5:
@@ -16,7 +16,13 @@ def students_and_grades():
     students = {}
     count = int(input("Сколько студентов? "))
     for i in range(count):
-        name = input("Имя студента: ")
+        while True:
+            name = input("Имя студента: ")
+            if name in students:
+                print(f"Ученика с таким именем уже записали. Попробуйте другое имя")
+                continue
+            else:
+                break
         grades = [read_grade(course) for course in COURSES]
         students[name] = grades
     return students
@@ -33,4 +39,3 @@ if __name__ == '__main__':
         print(f"\nСредний балл по всем студентам: {average:.2f}")
         print(f"Минимальная оценка: {min(all_grades)}")
         print(f"Максимальная оценка: {max(all_grades)}")
-
