@@ -1,5 +1,7 @@
 # task 02
-def journal(courses):
+COURSES = ("Вышсшая Математика", "Физика", "Структуры Данных", "Органическая Химия", "Физическая Химия")
+
+def journal(COURSES):
     students = {}
     while True:
         names = input("Введите ФИО студентов:")
@@ -9,7 +11,7 @@ def journal(courses):
             print("Ошибка! ФИО должно содержать только буквы!")
             continue
         grades = []
-        for subject in courses:
+        for subject in COURSES:
             while True:
                 try:
                     subject_grade = int(input(f"Оценка за дисциплину '{subject}':"))
@@ -35,6 +37,4 @@ def journal(courses):
         print(f"Минимальная оценка: {min_grade}")
         print(f"Максимальная оценка: {max_grade}")
 if __name__ == "__main__":
-    courses = ["Вышсшая Математика", "Физика", "Структуры Данных", "Органическая Химия", "Физическая Химия"]
-    journal(courses)
-    
+    journal(COURSES) 
