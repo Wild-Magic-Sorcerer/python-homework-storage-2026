@@ -1,5 +1,5 @@
 # task 04
-digit_letter = {
+DIGIT_TO_LETTER = {
     '0': 'a',
     '1': 'б',
     '2': 'в',
@@ -11,7 +11,8 @@ digit_letter = {
     '8': 'и',
     '9': 'к'
 }
-letter_digit = {
+
+LETTER_TO_DIGIT = {
     'а': '0',
     'б': '1',
     'в': '2',
@@ -23,14 +24,17 @@ letter_digit = {
     'и': '8',
     'к': '9'
 }
+
 def encode_text(numbers): # цифры -> буквы
-    code = str.maketrans(digit_letter)
+    code = str.maketrans(DIGIT_TO_LETTER)
     result = numbers.translate(code)
     return result
+
 def decode_numbers(text):
-    scheme = str.maketrans(letter_digit)
+    scheme = str.maketrans(LETTER_TO_DIGIT)
     result = text.translate(scheme)
     return result
+
 def what_want(choice, data):
     if choice == '1':
         result = encode_text(data)
@@ -40,6 +44,7 @@ def what_want(choice, data):
         return f'Зашифрованные цифры: {result}'
     else: 
         return 'Ваш выбор неверен'
+    
 if __name__ == '__main__':
     print("Шифр: 0 = а, 1 = б, 2 = в, 3 = г, 4 = д, 5 = е, 6 = ж, 7 = з, 8 = и, 9 = к")
     print("Выберите действие:\n1 - Зашифровать числа в буквы\n2 - Расшифровать буквы в числа")
@@ -52,4 +57,3 @@ if __name__ == '__main__':
         data = ""
     result = what_want(choice, data)
     print(result)
-    
