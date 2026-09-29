@@ -1,6 +1,9 @@
 # task01
+DELIMITER = ' '
+
 def counter(var):
-    var_split = var.split()
+    var = var.replace(',', DELIMITER)
+    var_split = var.split(DELIMITER)
     list_var = []
     for number in var_split:
         list_var.append(int(number))
