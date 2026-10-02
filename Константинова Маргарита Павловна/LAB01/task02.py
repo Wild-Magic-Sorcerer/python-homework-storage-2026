@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 
-KURSY = (
-    "Структуры данных",
-    "Высшая математика",
+KURSY: list[str] = [
+    "Программирование",
+    "Математический анализ",
     "Физика",
     "История России",
-    "Органическая химия",
-)
+    "Иностранный язык",
+]
 
 
-def schitat_otsenku(kurs):
+def schitat_otsenku(kurs: str) -> int:
     while True:
         otsenka = input(f"Оценка по курсу {kurs}: ")
         if otsenka.isdigit() and 3 <= int(otsenka) <= 5:
@@ -17,8 +17,8 @@ def schitat_otsenku(kurs):
         print("Оценка должна быть целым числом от 3 до 5.")
 
 
-def main():
-    otsenki_po_kursam = {kurs: [] for kurs in KURSY}
+def statistika_po_kursam() -> None:
+    otsenki_po_kursam: dict[str, list[int]] = {kurs: [] for kurs in KURSY}
 
     while True:
         imya = input("Имя студента (Enter для завершения):\n")
@@ -37,4 +37,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    statistika_po_kursam()
