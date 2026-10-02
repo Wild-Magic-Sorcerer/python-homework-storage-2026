@@ -1,12 +1,15 @@
+DELIMITER = ','
+
 def check_for_distinctness(entrance):
-    lst_entrance = entrance.split(',')
+    lst_entrance = entrance.split(DELIMITER)
     lst_entrance = [x.strip() for x in lst_entrance]
     set_lst_entrance = set(lst_entrance)
     if len(lst_entrance) != len(set_lst_entrance):
         duplicates = [y for y in set_lst_entrance if lst_entrance.count(y) > 1]
-        return f'Не все числа в последовательности различны, повторяющиеся: {",".join(duplicates)}'
+        return f'Не все числа в последовательности различны, повторяющиеся: {DELIMITER.join(duplicates)}'
     else:
         return 'Все числа в последовательности различны'
+
 
 if __name__ == "__main__":
     while True:
@@ -16,7 +19,7 @@ if __name__ == "__main__":
             print('Вы ничего не ввели, попробуйте еще раз!')
             continue
 
-        elements_sequence = sequence.replace(',',' ').split()
+        elements_sequence = sequence.replace(DELIMITER,' ').split()
 
         all_numbers = True
         for number in elements_sequence:
@@ -30,7 +33,7 @@ if __name__ == "__main__":
         if not all_numbers:
             continue
 
-        if ',' not in sequence:
+        if DELIMITER not in sequence:
             print('Вы ввели числа не через запятую, попробуйте еще раз!')
             continue
 
