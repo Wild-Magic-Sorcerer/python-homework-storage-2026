@@ -1,4 +1,4 @@
-courses = ['Высшая математика', 'Ботаника', 'Физика', 'Английский язык', 'Структуры данных']
+COURSES = ('Высшая математика', 'Ботаника', 'Физика', 'Английский язык', 'Структуры данных')
 
 def valid_grade(s_name, course_name):
     while True:
@@ -13,8 +13,8 @@ def valid_grade(s_name, course_name):
             print('Ошибка, вы ввели не целое число!')
 
 if __name__ == "__main__":
-    all_students_grade = []
-    students_names = []
+
+    students_grades = {}
 
     while True:
         student_name = input('Введите имя студента (или Enter для завершения):\n')
@@ -23,26 +23,27 @@ if __name__ == "__main__":
             print('Список студентов завершен')
             break
 
-        if student_name.lower() in students_names:
+        name_key = student_name.lower()
+
+        if name_key in students_grades:
             print('Оценки этого студента уже были записаны')
             continue
 
-        students_names.append(student_name.lower())
-
         one_student_grade = []
-        for course in courses:
+        for course in COURSES:
             grade = valid_grade(student_name, course)
             one_student_grade.append(grade)
 
-        all_students_grade.append(one_student_grade)
+        students_grades[name_key] = one_student_grade
         print(f'Оценки студента {student_name} сохранены')
 
-    if all_students_grade:
-        for i, subject_grade in enumerate(zip(*all_students_grade)):
-            average_score = sum(subject_grade) / len(subject_grade)
-            max_grade = max(subject_grade)
-            min_grade = min(subject_grade)
-            print(f'За предмет {courses[i]} средний балл - {average_score}, '
+    if students_grades:
+        for i, course_name in enumerate(COURSES):
+            grades_for_course = [grades[i] for grades in students_grades.values()]
+            average_score = sum(grades_for_course) / len(grades_for_course)
+            max_grade = max(grades_for_course)
+            min_grade = min(grades_for_course)
+            print(f'За предмет {course_name} средний балл - {average_score}, '
                   f'максимальная оценка - {max_grade}, '
                   f'минимальная оценка - {min_grade}')
             
