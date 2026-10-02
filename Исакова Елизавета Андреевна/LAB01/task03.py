@@ -1,3 +1,5 @@
+PUNCTUATION = '.,!?;:()-—«»"\'*/\\[]{}@#$%^&_+=<>|'
+
 if __name__ == '__main__':
     sentence = input('Введите предложение:\n')
     sentence_tpl = tuple(sentence.split())
@@ -6,14 +8,13 @@ if __name__ == '__main__':
     vowels = 0
     consonants = 0
     punctuation_marks = 0
-    punctuation = '.,!?;:()-—«»"\'*/\\[]{}@#$%^&_+=<>|'
 
     for i in sentence.lower():
         if i in 'aeiouyаеёиоуыэюя':
             vowels += 1
         elif i in 'bcdfghjklmnpqrstvwxyzбвгджзйклмнпрстфхцчшщ':
             consonants += 1
-        elif i in punctuation:
+        elif i in PUNCTUATION:
             punctuation_marks += 1
 
     print(f'Количество гласных в вашем предложении: {vowels},\n'
@@ -22,9 +23,8 @@ if __name__ == '__main__':
 
     lst_clean_word = []
     for word in sentence_tpl:
-        if word not in punctuation:
-            clean_word = word.strip(punctuation)
-            if clean_word:
-                lst_clean_word.append(clean_word.lower())
-    unique_clean_word = (set(lst_clean_word))
-    print(f'Количество уникальных слов в вашем предложении:{len(unique_clean_word)}')
+        clean_word = word.strip(PUNCTUATION)
+        if clean_word:
+            lst_clean_word.append(clean_word.lower())
+            
+    print(f'Количество уникальных слов в вашем предложении: {len(set(lst_clean_word))}')
