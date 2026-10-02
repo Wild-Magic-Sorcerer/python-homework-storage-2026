@@ -6,7 +6,8 @@ def vse_razlichny(chisla: list[float]) -> bool:
 
 
 def proverka_chisel() -> None:
-    chisla: list[float] = [float(x) for x in input("Введите числа через пробел: ").split()]
+    vvod: str = input("Введите числа через пробел: ")
+    chisla: list[float] = [float(x) for x in vvod.split()]
 
     if vse_razlichny(chisla):
         print("Все числа различны.")
