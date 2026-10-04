@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 
-SUBJECTS: list[str] = ["Структуры данных", 
+SUBJECTS: list[str] = ("Структуры данных", 
             "Высшая математика",
               "Физика",
                 "Ботаника высших растений",
                   "Органическая химия", 
-                  "Английский язык"]
+                  "Английский язык")
 
-students: list[str] = []
 
 def valid_mark(subject: str, student: str) -> int:
     while True:
@@ -76,4 +75,3 @@ if __name__ == "__main__":
         print(f'Студент {student} добавлен!\n')
 
     raschot(Stu_sub_mark)
-    
