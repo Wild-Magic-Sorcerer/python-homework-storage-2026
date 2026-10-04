@@ -2,12 +2,9 @@ VOWELS = "аеёиоуыэюя"
 CONSONANTS = "бвгджзйклмнпрстфхцчшщ"
 PUNCTUATION = ".,!?;:-()"
 
-def parse_text():
-	text = input("Введите строку слов разделенных пробелами:")
-	text_tuple = tuple(text.split())
-
-	unique = len(set(text_tuple))
-	print(f"Количество уникальных слов: {unique}")
+def parse_text(text):
+	words_tuple = tuple(text.split())
+	unique_count = len(set(words_tuple))
 
 	vowels = 0
 	consonants = 0
@@ -20,10 +17,13 @@ def parse_text():
 			consonants += 1
 		elif  t in PUNCTUATION:
 			punctuation += 1
-
-	print(f"Гласных букв: {vowels}")
-	print(f"Согласных букв: {consonants}")
-	print(f"Знаков препинания: {punctuation}")
+	return unique_count, vowels, consonants, punctuation
 
 if __name__ == '__main__':
-    parse_text()
+	user_text = input("Введите строку слов, разделенных пробелами: ")
+
+	u_words, v_count, c_count, p_count = parse_text(user_text)
+	print(f"Количество уникальных слов: {u_words}")
+	print(f"Гласных букв: {v_count}")
+	print(f"Согласных букв: {c_count}")
+	print(f"Знаков препинания: {p_count}")

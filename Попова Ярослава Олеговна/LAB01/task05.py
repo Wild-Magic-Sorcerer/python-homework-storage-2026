@@ -1,4 +1,10 @@
-def triangle():
+def triangle_c(a, b):
+	return (a**2 + b**2) ** 0.5
+
+def triangle_b(a, c):
+	return (c**2 - a**2) ** 0.5
+
+if __name__ == '__main__':
 	while True:
 		user_answer = input("Что ищем? 1 - гипотенузу, 2 - катет, 3 - сегодня без математики: ")
 
@@ -13,8 +19,8 @@ def triangle():
 					print("Ошибка! Катеты всегда положительны")
 					continue
 
-				c = (a**2 + b**2) ** 0.5
-				print(f"Гипотенуза равна: {c:.3f}")
+				result = triangle_c(a, b)
+				print(f"Гипотенуза равна: {result:.3f}")
 
 			except ValueError:
 				print("Вводите только числа, даже дроби")
@@ -22,7 +28,7 @@ def triangle():
 		elif user_answer == "2":
 			try:
 				a = float(input("Введите известный катет: "))
-				c = float(input("Введите гипотенузу:"))
+				c = float(input("Введите гипотенузу: "))
 
 				if a <= 0 or c <= 0:
 					print("Ошибка! Стороны не могут быть отрицательными")
@@ -31,14 +37,11 @@ def triangle():
 				if a >= c:
 					print("Ощибка! Гипотенуза всегда больше катета.")
 
-				b = (c**2 - a**2) ** 0.5
-				print(f"Катет равен: {b:.3f}")
+				result = triangle_b(a, c)
+				print(f"Катет равен: {result:.3f}")
 
 			except ValueError:
 				print("Вводите только числа, даже дроби")
 
 		else:
 			print("Ошибка! Выберите 1,2 или 3")
-
-if __name__ == '__main__':
-	triangle()
