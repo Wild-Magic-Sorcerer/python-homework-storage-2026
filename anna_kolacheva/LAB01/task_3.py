@@ -4,8 +4,6 @@ import string
 
 GLASN = "eyuioaуеыаоэяию"
 
-schotchik = {'znaki': 0, 'glas': 0, 'sogl': 0}
-
 def validation_word(word):
     word = word.strip()
     for el in word:
@@ -13,6 +11,7 @@ def validation_word(word):
             return False 
     return True 
 
+schotchik = {'znaki': 0, 'glas': 0, 'sogl': 0}
 
 def count_symbols(text):
 
@@ -59,4 +58,3 @@ if __name__ == "__main__":
     print(f'The number of vowels: {schotchik['glas']}')
     print(f'The number of consonants: {schotchik['sogl']}')
     print(f'The number of punctuation: {schotchik['znaki']}')
-    
