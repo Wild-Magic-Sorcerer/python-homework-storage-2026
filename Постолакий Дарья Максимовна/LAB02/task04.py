@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 
-VOWELS = ("аеёиоуыэюяaeiou")
+VOWELS = ("а","е","ё","и","о","у","ы","э","ю","я","a","e","i","o","u")
 
 def count_vowels(text):
     count = 0
