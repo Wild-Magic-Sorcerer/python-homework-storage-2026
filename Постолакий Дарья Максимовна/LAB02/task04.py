@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-VOWELS = set("аеёиоуыэюяaeiou")
+
+
+VOWELS = ("аеёиоуыэюяaeiou")
 
 def count_vowels(text):
     count = 0
@@ -16,5 +18,5 @@ def filter_strings_with_vowels(**kwargs):
     return result
 
 if __name__ == '__main__':
-    result = filter_strings_with_vowels(greeting="Привет мир", animal="кот", number=42, fruit="апельсин", drink="молоко", items=[1, 2, 3])
-    print(result)
+    result_user = filter_strings_with_vowels(greeting="Привет мир", animal="кот", number=42, fruit="апельсин", drink="молоко", items=[1, 2, 3])
+    print(result_user)
