@@ -1,4 +1,5 @@
-# task01
+#!/usr/bin/env python3
+
 DELIMITER = ' '
 
 def counter(var):
