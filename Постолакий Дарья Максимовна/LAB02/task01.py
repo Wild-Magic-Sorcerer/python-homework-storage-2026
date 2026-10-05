@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+
+
 def filter_longer_than_medium(strings):
     if not strings:
         return []
@@ -9,8 +11,8 @@ def filter_longer_than_medium(strings):
 
 if __name__ == '__main__':
     raw = input("Введите строки через пробел: ")
-    strings = raw.split()
-    result = filter_longer_than_medium(strings)
+    words = raw.split()
+    result = filter_longer_than_medium(words)
     if not result:
         print("Нет строк, длина которых больше средней")
     else:
