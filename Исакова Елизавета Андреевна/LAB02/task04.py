@@ -1,11 +1,12 @@
+VOWELS = "аеёиоуыэюяaeiouy"
+
 def lines_3(**kwargs):
-    vowels = "аеёиоуыэюяaeiouy"
     result = {}
     for key, value in kwargs.items():
         count = 0
         if isinstance(value, str):
             for letter in value:
-                if letter.lower() in vowels:
+                if letter.lower() in VOWELS:
                     count += 1
 
             if count >= 3:
