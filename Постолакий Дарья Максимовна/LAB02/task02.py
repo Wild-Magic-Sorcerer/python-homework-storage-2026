@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+
+
 def only_numbers(text):
     numbers = []
     for token in text.split():
@@ -17,17 +19,18 @@ def sort_min(numbers): # По убыванию
 def read_mode():
     print("Выберите режим сортировки:\n1 — по возрастанию\n2 — по убыванию")
     while True:
-        mode = input("Ваш выбор: ")
-        if mode in ('1', '2'):
-            return mode
+        result = input("Ваш выбор: ")
+        if result in ('1', '2'):
+            return result
         print("Неверный выбор режима, попробуйте снова")
 
 if __name__ == '__main__':
     mode = read_mode()
-    numbers = only_numbers(input("Введите числа через пробел: "))
-    if not numbers:
+    raw = input("Введите числа через пробел: ")
+    nums = only_numbers(raw)
+    if not nums:
         print("Чисел нет")
     elif mode == '1':
-        print(*sort_max(numbers))
+        print(*sort_max(nums))
     else:
-        print(*sort_min(numbers))
+        print(*sort_min(nums))
