@@ -1,4 +1,5 @@
-# task 03
+#!/usr/bin/env python3
+
 LIST_VOWELS = "аеёиоуыэюяАЕЁИОУЫЭЮЯ"
 LIST_CONSONANTS = "бвгджзйклмнпрстфхцчшщБВГДЖЗЙКЛМНПРСТФХЦЧШЩ"
 LIST_PUNCTUATION = ",./?:;-_!"
