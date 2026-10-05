@@ -1,4 +1,5 @@
-# task 04
+#!/usr/bin/env python3
+
 DIGIT_TO_LETTER = {
     '0': 'a',
     '1': 'б',
