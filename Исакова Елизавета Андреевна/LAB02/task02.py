@@ -14,9 +14,10 @@ if __name__ == "__main__":
     else:
         prompt_text = f'Введите последовательность чисел для сортировки через "{delimiter}":\n'
 
+    numbers_lst = []
+    
     while True:
         numbers = input(prompt_text)
-        numbers_lst = None
 
         if not numbers.strip():
             print('Вы ничего не ввели! Попробуйте еще раз')
