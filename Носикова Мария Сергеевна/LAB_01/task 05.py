@@ -1,4 +1,5 @@
-# task 05
+#!/usr/bin/env python3
+
 def find_hypotenuse(a,b):
     return (a ** 2 + b ** 2) ** 0.5
 
