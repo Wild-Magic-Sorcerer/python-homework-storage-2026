@@ -1,4 +1,5 @@
-# task_04
+#!/usr/bin/env python3
+
 VOWELS = "аеёиоуыэюяАЕЁИОУЫЭЮЯ"
 MIN_VOWELS = 3
 
