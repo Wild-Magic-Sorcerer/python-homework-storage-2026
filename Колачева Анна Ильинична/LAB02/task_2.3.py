@@ -5,7 +5,7 @@ import math
 
 DELIMITER = "; "
 
-def user_input(text: str):
+def user_input(text: str) -> str:
     znach = input(text)
     return znach
 
@@ -20,7 +20,7 @@ def parse_value(s: str):
     
         return s_stripped
 
-def rasbor_po_tipam(list_elem: list) -> dict:
+def rasbor_po_tipam(list_elem: list) -> dict[type, list]:
     result = {}
     
     for el in list_elem:

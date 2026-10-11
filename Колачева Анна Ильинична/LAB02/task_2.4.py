@@ -1,48 +1,44 @@
 #!/usr/bin/env python3
 
-def user_input(text: str):
-    znach = input(text).strip()
+COUNT_VOWELS = 3
+
+def user_input(text: str) -> str:
+    znach: str = input(text).strip()
     return znach
 
-def filter_v(**kwargs):
+def filter_v(**kwargs: str) -> dict[str, str]:
     vowels = 'aeiouаеёиоуыэюя'
-    res = {}
+    res: dict[str, str] = {}
 
     for key, znach in kwargs.items():
-        if isinstance(znach, str):
-            count = 0
-            lower_znach = znach.lower()
-            
-            for x in lower_znach:
-                if x in vowels:
-                    count += 1
-            
-            if count >= 3:
-                res[key] = znach
+        lower_znach: str = znach.lower()
+        count: int = sum(1 for x in lower_znach if x in vowels)
+        
+        if count >= COUNT_VOWELS:
+            res[key] = znach
                 
     return res
 
 
 if __name__ == "__main__":
     
-    user_kwargs = {}
+    user_kwargs: dict[str, str] = {}
     
     print("Вводите аргументы по очереди.")
     print("Для завершения введите пустую строку вместо имени аргумента.\n")
     
     while True:
 
-        key = user_input("Имя аргумента (или Enter для завершения): \n")
+        key: str = user_input("Имя аргумента (или Enter для завершения): \n")
         
         if not key:
             break
             
-        znach = input(f"Значение для '{key}': ")
-        
+        znach: str = user_input(f"Значение для '{key}': ")
         user_kwargs[key] = znach
     
     if user_kwargs:
-        res = filter_v(**user_kwargs)
+        res: dict[str, str] = filter_v(**user_kwargs)
         print("\nРезультат:", res)
     else:
         print("\nВы не ввели ни одного аргумента.")
