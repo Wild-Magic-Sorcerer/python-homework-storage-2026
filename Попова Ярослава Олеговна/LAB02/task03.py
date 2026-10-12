@@ -7,23 +7,28 @@ def multi_ints(*args):
         return {arg: type(arg) for arg in args}
         
     product = reduce(lambda acc, x: acc * x, only_ints, 1)
+    
     return product
 
 if __name__ == '__main__':
-    user_answer = input("Введите числа и слова через пробел: ").split()
+    user_answer = input("Введите любые значения (числа, слова) через пробел: ").split()
     
-    for item in user_answer:
-        try:
-            number = int(item)
-            user_data.append(number)
-        except ValueError:
+    if not user_answer:
+        print("Вы ничего не ввели!")
+    else:
+        user_data = [] # Корзина для правильных типов данных
+        
+        for item in user_answer:
             try:
-                float_number = float(item)
-                user_data.append(float_number)
+                number = int(item)
+                user_data.append(number)
             except ValueError:
-                user_data.append(item)
-
-                
+                try:
+                    float_number = float(item)
+                    user_data.append(float_number)
+                except ValueError:
+                    user_data.append(item)
+                    
         result = multi_ints(*user_data)
         
         print(f"Результат: {result}")
