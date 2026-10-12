@@ -6,27 +6,19 @@ def filter_vowels(**kwargs):
     for key, value in kwargs.items():
         if type(value) is str:
             vowels_count = len([char for char in value.lower() if char in VOWELS])
-            
+
             if vowels_count >= 3:
                 result[key] = value
-                
     return result
 
 if __name__ == '__main__':
-    print("Введите аргументы через запятую в формате: ключ=значение")
-    user_input = input("Ваш ввод: ")
-    
-    parsed_dict = {}
-    if user_input.strip():
-        pairs = user_input.split(",")
-        for pair in pairs:
-            if "=" in pair:
-                key, value = pair.split("=", 1)
-                parsed_dict[key.strip()] = value.strip()
+    print("Тестирование. word1=\"яблоко\", word2=\"gross\", number=\"10\", is_active=\"True\", number2=\"23.5\"")
 
-    final_result = filter_vowels(**parsed_dict)
-    
-    if final_result:
-        print(f"Подходящие аргументы (3+ гласных): {final_result}")
-    else:
-        print("Подходящих аргументов не найдено")
+    final_result = filter_vowels(
+        word1="яблокo",
+        word2="gross",
+        number=10,
+        is_active=True,
+        number2=23.5
+    )
+    print(f"Подходящие аргументы (3+ гласных): {final_result}")
