@@ -30,19 +30,19 @@ if __name__ == '__main__':
     else:
         try:
             result_1: list[int] = [int(x) for x in text.split(STANDARD_DELIMITED)]
-            choice: str = input('1 - по возрастанию, 2 - по убыванию: ').strip()
+        except ValueError:
+            print('Введите только целые числа')
+        else:
+            choice: str = input('Выберите: 1 - по возрастанию, 2 - по убыванию: ').strip()
 
             if choice == '1':
-                result_2: list[int] = insertion_sort(result_1,False)
+                result_2: list[int] = insertion_sort(result_1, False)
                 print('По возрастанию:', result_2)
 
             elif choice == '2':
-                result_2: list[int] = insertion_sort(result_1,True)
+                result_2: list[int] = insertion_sort(result_1, True)
                 print('По убыванию:', result_2)
 
             else:
                 print('???')
-
-        except ValueError:
-            print('Введите только целые числа')
-            
+                
