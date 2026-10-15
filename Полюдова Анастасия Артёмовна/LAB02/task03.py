@@ -23,25 +23,8 @@ def func3(*args):
 
 
 if __name__ == '__main__':
-    text: str = input('Введите какие-то аргументы: ').strip()
+    result_1 = func3(3.22, True, 'аргумент')
 
-    if not text:
-        print('Пустовато..')
-    else:
-        result_1: list = []
-
-        for var_1 in text.split(STANDARD_DELIMITED):
-            try:
-                var_2 = int(var_1)
-            except ValueError:
-                try:
-                    var_2 = float(var_1)
-                except ValueError:
-                    var_2 = var_1
-
-            result_1.append(var_2)
-
-        result_2 = func3(*result_1)
-
-        if result_2 is not None:
-            print('Произведение:', result_2)
+    if result_1 is not None:
+        print('Произведение аргументов:', result_1)
+        
