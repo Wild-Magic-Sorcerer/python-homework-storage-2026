@@ -1,16 +1,11 @@
 #!/usr/bin/env python3
 
 
-STANDARD_DELIMITED: str = ' '
 GL: str = 'уеыаоэяиюё'
 
 
 def check_gl(word: str) -> bool:
-    count: int = 0
-
-    for letter in word.lower():
-        if letter in GL:
-            count += 1
+    count: int = len([x for x in word.lower() if x in GL])
 
     return count >= 3
 
@@ -26,22 +21,6 @@ def func4(**kwargs) -> dict:
 
 
 if __name__ == '__main__':
-    text: str = input('Введите аргументы в формате имя=значение: ').strip()
-
-    if not text:
-        print('Пустовато..')
-    else:
-        result_1: dict = {}
-
-        for var_1 in text.split(STANDARD_DELIMITED):
-            if '=' in var_1:
-                key, value = var_1.split('=', 1)
-                result_1[key] = value
-
-        result_2: dict = func4(**result_1)
-
-        if not result_2:
-            print('Подходящих значений нет')
-        else:
-            print('Результат:', result_2)
-            
+    result_1: dict = func4(course='Программирование', mark='три', grade='удовлетворительно')
+    print(result_1)
+    
