@@ -2,10 +2,10 @@
 
 
 def fact_rec(n: int):
-    if n == 0 or n == 1:
+    if n <= 1:
         return 1
-    else:
-        return n * fact_rec(n - 1)
+
+    return n * fact_rec(n - 1)
 
 
 def fact_iter(n: int):
@@ -17,22 +17,33 @@ def fact_iter(n: int):
     return result
 
 
-if __name__ == '__main__':
-    value: str = input('Введите целое число: ').strip()
+def func5():
+    text: str = input('Введите целое число: ').strip()
 
-    if not value:
+    if not text:
         print('Пустовато..')
-    else:
-        try:
-            number: int = int(value)
+        return None
 
-            if number < 0:
-                print('Не нужно вводить отрицательное число')
-            else:
-                result_1: int = fact_rec(number)
-                result_2: int = fact_iter(number)
-                print('Рекурсивный метод:', result_1)
-                print('Итеративный метод:', result_2)
+    try:
+        number: int = int(text)
+    except ValueError:
+        print('Нужно ввести целое число')
+        return None
 
-        except ValueError:
-            print('Нужно ввести целое число')
+    if number < 0:
+        print('Не нужно вводить отрицательное число')
+        return None
+
+    return number
+
+
+if __name__ == '__main__':
+    result_1 = func5()
+
+    if result_1 is not None:
+        var_1: int = fact_rec(result_1)
+        var_2: int = fact_iter(result_1)
+
+        print('Рекурсивный метод:', var_1)
+        print('Итеративный метод:', var_2)
+        
