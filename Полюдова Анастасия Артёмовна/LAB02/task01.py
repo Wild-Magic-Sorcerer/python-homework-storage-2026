@@ -25,3 +25,4 @@ if __name__ == '__main__':
             print('Нет строк длиннее среднего значения')
         else:
             print(result_2)
+            
