@@ -21,7 +21,6 @@ def func3(*args):
 
 if __name__ == '__main__':
     result_1 = func3(3.22, True, 'аргумент')
-
-    if result_1 is not None:
-        print('Произведение аргументов:', result_1)
-        
+    result_2 = func3(1, 2, 3)
+    print('Произведение аргументов:', result_2)
+    
