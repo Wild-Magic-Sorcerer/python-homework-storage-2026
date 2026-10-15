@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
 
 
-STANDARD_DELIMITED: str = ' '
-
-
 def func3(*args):
     result: int = 1
     check_int: bool = False
