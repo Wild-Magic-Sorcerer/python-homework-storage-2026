@@ -43,7 +43,6 @@ if __name__ == '__main__':
     if result_1 is not None:
         var_1: int = fact_rec(result_1)
         var_2: int = fact_iter(result_1)
-
         print('Рекурсивный метод:', var_1)
         print('Итеративный метод:', var_2)
         
