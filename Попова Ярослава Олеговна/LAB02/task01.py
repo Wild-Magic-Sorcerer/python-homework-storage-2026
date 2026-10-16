@@ -1,19 +1,18 @@
-DELIMITER = ' '
+#!/usr/bin/env python3
 
-def long_strings(words):
-    lengths = [len(word) for word in words]
-    average_len = sum(lengths) / len(lengths)
+def filter_texts(data: list[str]) -> list[str]:
+    sizes = list(map(len, data))
+    avg = sum(sizes) / len(sizes)
 
-    return [word for word in words if len(word) > average_len]
+    return [s for s in data if len(s) > avg]
+
 
 if __name__ == '__main__':
-    user_answer = input("Введите слова через пробел: ").split(DELIMITER)
-    
-    if not user_answer:
-      print("Ошибка! Введите список строк!")
+    raw = input("Введите слова через пробел: ")
+    parts = raw.strip().split()
 
+    if not parts:
+        print("Ошибка: вы ввели пустую строку!")
     else:
-        result = long_strings(user_answer)
-            
-    print(f"Список со строками длиннее среднего значения: {result}")
-    
+        res = filter_texts(parts)
+        print(f"Результат: {res}")

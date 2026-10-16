@@ -1,36 +1,46 @@
-DELIMITER = ' '
+#!/usr/bin/env python3
 
-def sort_ascending(numbers):
-    return sorted(numbers)
+def sort_asc(numbers: list[float]):
+    n = len(numbers)
+    for i in range(n):
+        for j in range(n - i - 1):
+            if numbers[j] > numbers[j + 1]:
+                numbers[j], numbers[j + 1] = numbers[j + 1], numbers[j]
 
-
-def sort_descending(numbers):
-    return sorted(numbers, reverse=True)
+def sort_desc(numbers: list[float]):
+    n = len(numbers)
+    for i in range(n):
+        for j in range(n - i - 1):
+            if numbers[j] < numbers[j + 1]:
+                numbers[j], numbers[j + 1] = numbers[j + 1], numbers[j]
 
 if __name__ == '__main__':
     while True:
-        user_answer = input("Введите через пробел последовательность чисел: ").split()
-        if not user_answer:
-            print("Вы ничего не ввели!")
+        raw = input("Введите через пробел последовательность чисел: ")
+        parts = raw.strip().split()
+
+        if not parts:
+            print("Вы ничего не ввели! Попробуйте снова.")
             continue
-    
-        nums = []
+
         try:
-            for num in user_answer:
-                nums.append(float(num))
+            nums = [float(x) for x in parts]
             break
         except ValueError:
-            print("Ошибка! вы должны ввести последовательность чисел")
+            print("Ошибка! Вы должны ввести числа. Попробуйте снова.")
 
-    print("Если хотите сделать сортировку по возрастанию, нажмите 1. Если по убыванию - нажмите 2")
-    us_input = input("Что Вы желаете сделать? ")
+    while True:
+        print("1 - по возрастанию")
+        print("2 - по убыванию")
+        choice = input("Что Вы желаете сделать? ").strip()
 
-    if us_input == "1":
-        result = sort_ascending(nums)
-    elif us_input == "2":
-        result = sort_descending(nums)
+        if choice == "1" or choice == "2":
+            break
+        print("Ошибка! Выберите 1 или 2.")
+
+    if choice == "1":
+        sort_asc(nums)
     else:
-        print("Ошибка! Выберите 1 или 2")
+        sort_desc(nums)
 
-    print(f"Ваш отсортированный список: {result}")
-    
+    print(f"Ваш отсортированный список: {nums}")
