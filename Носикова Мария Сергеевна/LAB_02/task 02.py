@@ -8,7 +8,7 @@ def sort_numbers(numbers, choice):
 
 
 if __name__ == '__main__':
-    users_input = input("Введите числа через пробел:")
+    users_input = input("Введите числа через пробел:\n)
     users_input = users_input.replace(",", " ")
     list_str = users_input.split() 
 
