@@ -30,9 +30,9 @@ if __name__ == "__main__":
 
     while True:
 
-        var_more: str = user_input('Ещё одну? (если строки закончились, пиши "стоп")\n')
+        var_more: str = user_input('Ещё одну? (если строки закончились, нажми Enter)\n')
 
-        if var_more.lower() == "стоп":
+        if var_more == "":
             break
             
         ish_list.append(var_more)
