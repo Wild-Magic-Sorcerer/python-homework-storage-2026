@@ -8,7 +8,7 @@ def sort_numbers(numbers, choice):
 
 
 if __name__ == '__main__':
-    users_input = input("Введите числа через пробел:\n)
+    users_input = input("Введите числа через пробел:\n")
     users_input = users_input.replace(",", " ")
     list_str = users_input.split() 
 
@@ -17,13 +17,14 @@ if __name__ == '__main__':
         try:
             numbers.append(int(number))
         except ValueError:
-            print(f"Ошибка: '{number}' не число")
-            break
+            continue
 
-    if len(numbers) == len(list_str):
+    if numbers:
         print("Сортировка по возрастанию - 1, по убыванию - 2")
-        choice = input("Ваш выбор:")
+        choice = input("Ваш выбор:\n")
         result = sort_numbers(numbers, choice)
 
         print(f"Исходный список: {numbers}")
         print(f"Отсортированный список: {result}")
+    else: 
+        print("Числа не введены")
