@@ -1,20 +1,20 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3 
 
-VOWELS = "аеёиоуыэюяАЕЁИОУЫЭЮЯ"
+VOWELS = "аеёиоуыэюя"
 MIN_VOWELS = 3
 
 def count_vowels(arguments):
     count = 0
     for letter in arguments:
-        if letter in VOWELS:
+        if letter.lower() in VOWELS:
             count += 1
     return count
 
 
-def filtered_words(data):
+def filtered_words(**kwargs):
     result = {}
 
-    for i, value in data.items():
+    for i, value in kwargs.items():
         if type(value) == str:
             vowels_count = count_vowels(value)
             if vowels_count >= MIN_VOWELS:
@@ -22,23 +22,16 @@ def filtered_words(data):
     return result
 
 
-def parse_input(user_input):
-    result = {}
-    for pair in user_input.split(","):
-        if "=" in pair:
-            key, value = pair.split("=", 1)
-            result[key.strip()] = value.strip()
-    return result
-
-
 if __name__ == '__main__':
-    print("Введите аргументы через запятую в формате: ключ=значение")
-    user_input = input("Введите данные: ")
-    lala = parse_input(user_input)
-    print(f"Распознанные аргументы: {lala}")
-    result = filtered_words(lala)
-
+    result = filtered_words(
+        name = "Акакий",
+        age = "101",
+        city = "спб",
+        fruit = "помидор",
+        hobby = "хоббихорсинг"
+    )
     if result:
-        print(f"Аргументы с 3+ гласными: {result}")
+        print(f"Аргусенты больше, чем с {MIN_VOWELS} гласными: {result}")
     else: 
-        print("подходящих аргументов не найдено.")
+        print("Подходящих аргументов нет.")
+
