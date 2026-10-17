@@ -5,6 +5,9 @@ def sort_numbers(numbers, choice):
         return sorted(numbers)
     elif choice == "2":
         return sorted(numbers, reverse = True)
+    else:
+        print("Неверный выбор. По умолчанию совершается сортировка по возрастанию.")
+        return sorted(numbers)
 
 
 if __name__ == '__main__':
