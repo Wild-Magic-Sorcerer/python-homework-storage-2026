@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
-STRING_OF_FRUITS = ["яблоко", "апельсин", "помидор", "инжир", "слива", "груша", "маракуйя"]
+
+FRUITS = ("яблоко", "апельсин", "помидор", "инжир", "слива", "груша", "маракуйя")
 
 def filter_length_strings(strings):
 
     if not strings:
-        return print('список пуст')
-    
+        print("список фруктов пуст")
+        return [], 0
+
     total_length = 0
     for word in strings:
         total_length += len(word)
@@ -20,7 +22,7 @@ def filter_length_strings(strings):
 
 
 if __name__ == '__main__':
-    filtered_str, average_length = filter_length_strings(STRING_OF_FRUITS)
+    filtered_str, average_length = filter_length_strings(FRUITS)
 
     print(f"средняя длина строки: {average_length:.2f}")
     print(f"длинее среднего: {filtered_str}")
