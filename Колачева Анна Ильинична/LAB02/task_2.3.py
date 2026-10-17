@@ -1,48 +1,46 @@
 #!/usr/bin/env python3
 
-import ast
-import math
 
-DELIMITER = "; "
+def types_int(*args: object) -> int | str:
+    int_el: list[int] = [arg for arg in args if type(arg) is int and not isinstance(arg, bool)]
 
-def user_input(text: str) -> str:
-    znach = input(text)
-    return znach
-
-def parse_value(s: str):
-    s_stripped = s.strip()
-    
-    try:
-
-        return ast.literal_eval(s_stripped)
-    
-    except (ValueError, SyntaxError):
-    
-        return s_stripped
-
-def rasbor_po_tipam(list_elem: list) -> dict[type, list]:
-    result = {}
-    
-    for el in list_elem:
-        el_type = type(el)
-        
-        if el_type not in result:
-            result[el_type] = []
+    if not int_el:
+        if not args:
+            return "Аргументы не были переданы."
             
-        result[el_type].append(el)
+        other_types = []
+        for arg in args:
+            other_types.append(f"'{arg}' ({type(arg).__name__})")
+            
+        return f"Целые числа не найдены. Получены следующие значения:\n  {', '.join(other_types)}"
+
+    result = 1
+    for num in int_el:
+        result *= num
         
     return result
 
-if __name__ == "__main__":
-    us_i = user_input(f"Введите последовательность аргументов через '{DELIMITER}':\n")
-    
-    list_el = [parse_value(i) for i in us_i.split(DELIMITER)]
-    
-    grouped = rasbor_po_tipam(list_el)
 
-    if int in grouped:
-        product = math.prod(grouped[int])
-        print(f"Произведение int: {product}")
     
-    for t, items in grouped.items():
-        print(f"Тип {t.__name__}: {items}")
+if __name__ == '__main__':
+    print("Проверка 1: есть целые числа")
+    res1 = types_int(2, "привет", 3, 4.5, True, 5)
+    print(f"Результат: {res1}\n")
+    
+    print("*" * 40)
+    
+    print("Проверка 2: целых чисел нет")
+    res2 = types_int("кот", 3.14, [1, 2], True)
+    print(f"Результат: {res2}\n")
+    
+    print("*" * 40)
+    
+    print("Проверка 3: только одно целое число")
+    res3 = types_int(7, "a", 2.0)
+    print(f"Результат: {res3}\n")
+    
+    print("*" * 40)
+    
+    print("Проверка 4: пустой вызов")
+    res4 = types_int()
+    print(f"Результат: {res4}")
