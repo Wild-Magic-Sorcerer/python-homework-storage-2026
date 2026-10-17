@@ -1,4 +1,4 @@
-# task_03
+#!/usr/bin/env python3
 
 def different_arguments(numbers):
     integer = []
