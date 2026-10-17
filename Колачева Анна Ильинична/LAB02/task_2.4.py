@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 COUNT_VOWELS = 3
-VOWELS = 'aeiouаеёиоуыэюя
+VOWELS = 'aeiouаеёиоуыэюя'
 
 def user_input(text: str) -> str:
     znach: str = input(text).strip()
