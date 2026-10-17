@@ -14,41 +14,24 @@ def different_arguments(numbers):
         result = 1
         for num in integer:
             result *= num
-        return result
+        return ("product", result)
+    elif not_integer:
+        return ("not_integers", not_integer)
     else:
-        return not_integer
+        return ("empty", None)
 
 
 def print_result(result):
-    if type(result) == int:
-        print(f"Произведение целых чисел равно {result}")
-    elif len(result) == 0:
-        print("Спсиок пуст.")
-    else: 
-        print("В списке отсутсвуют целые числа. Нецелые аргументы: ")
-        for item in result:
-            print(f"{item} - тип: {type(item)}")
+    result_type, result_value = result 
+    if result_type == "product":
+       print(f"Произведение целых чисел равняется: {result_value}") 
+    elif result_type == "empty":
+       print("Список пуст.")
+    else:
+       print("В спсике отсутствуют целые числа.")
 
-
-def analise_str(user_input):
-    user_input = user_input.replace(",", " ")
-    string_list = user_input.split()
-
-    if len(string_list) == 0:
-        return []
-
-    result = []
-    for item in string_list:
-        try: 
-            result.append(int(item))
-        except ValueError:
-            result.append(item)
-    return result 
 
 if __name__ == '__main__':
-    print("Напишите значения. Например: 2 привет 56.0473 True пупупу")
-    user_input = input("Введите данные: ")
-    numbers = analise_str(user_input)
-    print(f"Распознанные числа: {numbers}")
-    result = different_arguments(numbers)
+    result = different_arguments(4, "привет-привет", 3.14, False, "5489", 67)
     print_result(result)
+
