@@ -1,4 +1,4 @@
-# task 02
+#!/usr/bin/env python3
 
 def sort_numbers(numbers, choice):
     if choice == "1":
