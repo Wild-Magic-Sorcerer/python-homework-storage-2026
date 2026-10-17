@@ -1,4 +1,4 @@
-### задание №1
+#!/usr/bin/env python3
 STRING_OF_FRUITS = ["яблоко", "апельсин", "помидор", "инжир", "слива", "груша", "маракуйя"]
 
 def filter_length_strings(strings):
