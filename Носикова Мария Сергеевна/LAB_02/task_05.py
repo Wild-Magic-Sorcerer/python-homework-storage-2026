@@ -13,20 +13,25 @@ def factorial_iterative(n):
     return result
 
 
-if __name__ == '__main__':
+def number_from_user():
     user_input = input("Введите целое неотрицательное число: ")
-
     try:
         number = int(user_input)
     except ValueError:
         print(f"Ошибка: '{user_input} - не целое число.")
-    else:
-        if number < 0:
-            print("Ошибка: факториал вычисляется только для неотрицательного числа.")
-        else: 
-            result_recursive = factorial_recursive(number)
-            result_iterative = factorial_iterative(number)
+        return None
+    if number < 0:
+        print("Ошибка: факториал вычисляется только для неотрицательного числа.")
+        return None
+    return number
 
-            print(f"Факториал числа {number}: ")
-            print(f"реализация рекурсией: {number}!= {result_recursive}")
-            print(f"реализация итерацией: {number}!= {result_iterative}")
+
+if __name__ == '__main__':
+    number = number_from_user()
+    if number is not None:
+        result_recursive = factorial_recursive(number)
+        result_iterative = factorial_iterative(number)
+
+        print(f"Факториал числа {number}: ")
+        print(f"реализация рекурсией: {number}!= {result_recursive}")
+        print(f"реализация итерацией: {number}!= {result_iterative}")
