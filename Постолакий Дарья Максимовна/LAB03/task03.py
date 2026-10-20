@@ -10,7 +10,7 @@ def generate_numbers(count, low, high):
     :param low: Нижняя граница диапазона (включительно).
     :param high: Верхняя граница диапазона (включительно).
     :return: Список случайных целых чисел.
-    :rtype: List
+    :rtype: list
     """
     return [random.randint(low, high) for _ in range(count)]
 
@@ -20,7 +20,7 @@ def filter_numbers(list_numbers, condition):
     :param list_numbers: Список чисел.
     :param condition: Функция-условие, возвращающая True/False.
     :return: Список чисел, удовлетворяющих условию.
-    :rtype: List
+    :rtype: list
     """
     return list(filter(condition, list_numbers))
 
@@ -35,8 +35,7 @@ if __name__ == '__main__':
     second = filter_numbers(numbers, absolute_greater_20)
     third = filter_numbers(numbers, both_conditions)
 
-    print(f"Исходный список: {numbers}")
-    print()
+    print(f"Исходный список: {numbers}\n")
     print(f"Делятся на 3, но не на 9: {first} (длина: {len(first)})")
     print(f"|x| > 20: {second} (длина: {len(second)})")
     print(f"Оба условия: {third} (длина: {len(third)})")

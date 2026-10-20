@@ -14,7 +14,7 @@ def process_products(products_list):
     Исходные словари не изменяются.
     :param products_list: Список словарей товаров.
     :return: Новый список словарей с полем final_price, отсортированный по final_price.
-    :rtype: List
+    :rtype: list
     """
     result_list = list(map(
         lambda product: {
@@ -23,7 +23,8 @@ def process_products(products_list):
         },
         products_list,
     ))
-    return sorted(result_list, key=lambda p: p["final_price"])
+    result_list.sort(key=lambda product: product["final_price"])
+    return result_list
 
 if __name__ == '__main__':
     result = process_products(products)
