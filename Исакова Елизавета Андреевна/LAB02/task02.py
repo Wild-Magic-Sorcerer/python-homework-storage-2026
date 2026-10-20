@@ -1,3 +1,5 @@
+DELIMITER = ','
+
 def increase(data):
     inc_sort = sorted(data)
     return tuple(inc_sort)
@@ -7,40 +9,29 @@ def decrease(data):
     return tuple(dec_sort)
 
 if __name__ == "__main__":
-    delimiter = ','
-
-    if delimiter == ' ':
-        prompt_text = 'Введите последовательность чисел для сортировки через пробел:\n'
-    else:
-        prompt_text = f'Введите последовательность чисел для сортировки через "{delimiter}":\n'
-
-    numbers_lst = []
-    
     while True:
-        numbers = input(prompt_text)
+        numbers = input('Введите последовательность чисел для сортировки через запятую:\n')
+        numbers_lst = None
 
-        if not numbers.strip():
+        if not numbers:
             print('Вы ничего не ввели! Попробуйте еще раз')
             continue
 
-        if delimiter not in numbers:
-            if delimiter == ' ':
-                print('Вы ввели числа не через пробел! Попробуйте еще раз')
-            else:
-                print(f'Вы ввели числа не через "{delimiter}"! Попробуйте еще раз')
+        if DELIMITER not in numbers:
+            print('Вы ввели числа не через запятую! Попробуйте еще раз')
             continue
 
-        numbers = numbers.split(delimiter)
+        numbers = numbers.split(DELIMITER)
         valid = True
         for number in numbers:
             strip_number = number.strip()
             if not strip_number:
                 valid = False
-                print(f'Не пишите лишние "{delimiter}"!')
+                print(f'Не пишите лишние "{DELIMITER}"!')
                 break
-            if delimiter in strip_number:
+            if ' ' in strip_number:
                 valid = False
-                print(f'{strip_number} - это не одно число, их нужно разделять "{delimiter}"!')
+                print(f'{strip_number} - это не одно число, их нужно разделять "{DELIMITER}"!')
                 break
 
         if not valid:
@@ -70,3 +61,4 @@ if __name__ == "__main__":
         else:
             print('Попробуйте еще раз, нужно ввести + или - !')
             continue
+            
