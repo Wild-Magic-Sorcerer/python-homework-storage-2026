@@ -2,7 +2,6 @@
 
 DELIMITER = " "
 
-
 def all_different(numbers):
     seen = []
     for number in numbers:
@@ -10,7 +9,6 @@ def all_different(numbers):
             return False
         seen.append(number)
     return True
-
 
 def main():
     text = input("Введите числа через пробел: ")
@@ -29,7 +27,6 @@ def main():
             print("Есть одинаковые числа.")
     except ValueError:
         print("Ошибка: нужно вводить только числа.")
-
 
 if __name__ == "__main__":
     main()
