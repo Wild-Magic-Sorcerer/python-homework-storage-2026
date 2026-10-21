@@ -1,31 +1,41 @@
-#!/usr/bin/env python3
+DELIMITER = " "
+PUNCTUATION = ".,!?;:-–—…()[]{}«»„“”\"'‘’"
+VOWELS = "аеёиоуыэюяaeiou"
+CONSONANTS = "бвгджзйклмнпрстфхцчшщbcdfghjklmnpqrstvwxyz"
 
-text = input("Введите строку: ")
-words = tuple(text.split())
-punctuation = ".,!?;:-–—…()[]{}«»„“”‘’" + "'"
 
-unique_words = set()
-for word in words:
-    clean_word = word.lower().strip(punctuation)
-    if clean_word != "":
-        unique_words.add(clean_word)
+def main():
+    text = input("Введите строку: ")
+    words = []
+    for word in text.split(DELIMITER):
+        if word != "":
+            words.append(word)
+    words = tuple(words)
 
-vowels = "аеёиоуыэюяaeiou"
-consonants = "бвгджзйклмнпрстфхцчшщbcdfghjklmnpqrstvwxyz"
-vowel_count = 0
-consonant_count = 0
-punctuation_count = 0
+    unique_words = set()
+    for word in words:
+        clean_word = word.lower().strip(PUNCTUATION)
+        if clean_word != "":
+            unique_words.add(clean_word)
 
-for char in text.lower():
-    if char in vowels:
-        vowel_count += 1
-    elif char in consonants:
-        consonant_count += 1
-    elif char in punctuation:
-        punctuation_count += 1
+    vowel_count = 0
+    consonant_count = 0
+    punctuation_count = 0
 
-print("Кортеж слов:", words)
-print("Количество уникальных слов:", len(unique_words))
-print("Количество гласных:", vowel_count)
-print("Количество согласных:", consonant_count)
-print("Количество знаков препинания:", punctuation_count)
+    for char in text.lower():
+        if char in VOWELS:
+            vowel_count += 1
+        elif char in CONSONANTS:
+            consonant_count += 1
+        elif char in PUNCTUATION:
+            punctuation_count += 1
+
+    print("Кортеж слов:", words)
+    print("Количество уникальных слов:", len(unique_words))
+    print("Количество гласных:", vowel_count)
+    print("Количество согласных:", consonant_count)
+    print("Количество знаков препинания:", punctuation_count)
+
+
+if __name__ == "__main__":
+    main()
