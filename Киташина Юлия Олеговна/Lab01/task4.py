@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 ALPHABET = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя"
 PUNCTUATION = ".,!?;:-–—…()[]{}«»„“”\"'‘’"
 SYMBOLS = ALPHABET + PUNCTUATION
