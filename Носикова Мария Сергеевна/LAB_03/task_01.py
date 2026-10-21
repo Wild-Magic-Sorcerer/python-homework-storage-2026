@@ -31,7 +31,7 @@ if __name__ == '__main__':
 
     if count <= 0:
         print ("Количество чисел должно быть больше нуля.")
-        exit()
+        exit(1)
     numbers = []
     for i in range(count):
         numbers.append(get_user_input(f"Введите число {i + 1}: "))
