@@ -49,7 +49,7 @@ def make_pairs(words):
     Преобразует каждое слово в пару (слово, его длина).
 
     :param words: Список строк
-    :return: Спсиок кортежей (слово, его длина)
+    :return: Список кортежей (слово, его длина)
     """
     return list(map(lambda x: (x, len(x)), words))
 
@@ -76,6 +76,11 @@ def final_count(pairs):
 
 if __name__ == '__main__':
     words = get_users_words()
+
+    if not words:
+        print("Список слов пуст.")
+        exit(1)
+
     print(f"Исходный список слов:\n {words}")
 
     filtered = filter_words(words)
@@ -83,12 +88,13 @@ if __name__ == '__main__':
 
     if not filtered:
         print(f"Нет ни одного слова больше чем с {MIN_WORDS_LENGTH} символами")
-    else:
-        pairs = make_pairs(filtered)
-        print(f"Пары (слово, его длина):\n{pairs}")
+        exit(1)
+    
+    pairs = make_pairs(filtered)
+    print(f"Пары (слово, его длина):\n{pairs}")
 
-        longest_words = find_longest_word(pairs)
-        print(f"Слово с максимальной длиной:\n{longest_words[0]} ({longest_words[1]} букв)")
+    longest_words = find_longest_word(pairs)
+    print(f"Слово с максимальной длиной:\n{longest_words[0]} ({longest_words[1]} букв)")
 
-        total_count = final_count(pairs)
-        print(f"Суммарное количество букв: {total_count}")
+    total_count = final_count(pairs)
+    print(f"Суммарное количество букв: {total_count}")
