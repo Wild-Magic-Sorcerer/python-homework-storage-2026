@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 
-def different_arguments(numbers):
+def different_arguments(*args):
     integer = []
     not_integer = []
 
-    for argument in numbers:
+    for argument in args:
         if type(argument) == int:
             integer.append(argument)
         else:
