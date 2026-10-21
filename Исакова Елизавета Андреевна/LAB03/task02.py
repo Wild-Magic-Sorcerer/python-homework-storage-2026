@@ -1,5 +1,5 @@
 new_dict = lambda old_dict: {**old_dict,
-                             "final_price":old_dict['price'] * (1 - old_dict["discount"] / 100)}
+                             "final_price": old_dict['price'] * (1 - old_dict["discount"] / 100)}
 
 if __name__ == '__main__':
 
@@ -13,21 +13,23 @@ if __name__ == '__main__':
         discount = None
 
         while True:
-            data_price = input('Введите цену на этот товар:\n')
-            data_discount = input('Введите скидку на этот товар:\n')
-
             try:
-                price = int(data_price)
-                discount = int(data_discount)
-            except ValueError:
-                print('Цена и скидка должны быть целыми числами!')
-                continue
+                data_price = input('Введите цену на этот товар:\n')
+                data_discount = input('Введите скидку на этот товар:\n')
 
-            if price < 0:
-                print('Цена не может быть отрицательной!')
-                continue
-            if discount < 0 or discount > 100:
-                print('Скидка должна быть от 0 до 100!')
+                try:
+                    price = int(data_price)
+                    discount = int(data_discount)
+                except ValueError:
+                    raise ValueError('Цена и скидка должны быть целыми числами!')
+
+                if price < 0:
+                    raise ValueError('Цена не может быть отрицательной!')
+                if discount < 0 or discount > 100:
+                    raise ValueError('Скидка должна быть от 0 до 100!')
+
+            except ValueError as e:
+                print(str(e))
                 continue
 
             break
