@@ -1,4 +1,5 @@
-#!/usr/bin/env python3
+DELIMITER = " "
+
 
 def all_different(numbers):
     seen = []
@@ -9,13 +10,14 @@ def all_different(numbers):
     return True
 
 
-if __name__ == "__main__":
+def main():
     text = input("Введите числа через пробел: ")
 
     try:
         numbers = []
-        for item in text.split():
-            numbers.append(float(item))
+        for item in text.split(DELIMITER):
+            if item != "":
+                numbers.append(float(item))
 
         if len(numbers) == 0:
             print("Вы не ввели числа.")
@@ -25,3 +27,7 @@ if __name__ == "__main__":
             print("Есть одинаковые числа.")
     except ValueError:
         print("Ошибка: нужно вводить только числа.")
+
+
+if __name__ == "__main__":
+    main()
