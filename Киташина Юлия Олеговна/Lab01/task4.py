@@ -27,8 +27,7 @@ def main():
         if valid:
             print("Шифр:", DELIMITER.join(numbers))
     elif mode == "2":
-        prompt = f"Введите числа от 0 до {len(SYMBOLS)} через пробел: "
-        numbers = input(prompt).split(DELIMITER)
+        numbers = input(f"Введите числа от 0 до {len(SYMBOLS)} через пробел: ").split(DELIMITER)
         text = ""
         valid = True
 
