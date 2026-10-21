@@ -16,20 +16,16 @@ if __name__ == '__main__':
             print('Вы ничего не ввели, попробуйте еще раз!')
             continue
 
-        has_error = False
+        cleaned = None
 
-        for x in data.split():
-            cleaned = x.strip(PUNCTUATION)
-            if cleaned:
-                try:
+        try:
+            for x in data.split():
+                cleaned = x.strip(PUNCTUATION)
+                if cleaned:
                     number = int(cleaned)
                     arguments.append(number)
-                except ValueError:
-                    print(f'{cleaned} не является целым числом, попробуйте еще раз!')
-                    has_error = True
-                    break
-
-        if has_error:
+        except ValueError:
+            print(f'{cleaned} не является целым числом, попробуйте еще раз!')
             continue
 
         if arguments:
@@ -40,3 +36,4 @@ if __name__ == '__main__':
 
     for number in arguments:
         print(f'{number} — {definition_of_numbers(number)}')
+        
