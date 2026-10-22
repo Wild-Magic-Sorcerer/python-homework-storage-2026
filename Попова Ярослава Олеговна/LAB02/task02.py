@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+DELIMITER = " "
+
 def sort_asc(numbers: list[float]):
     n = len(numbers)
     for i in range(n):
@@ -17,7 +19,7 @@ def sort_desc(numbers: list[float]):
 if __name__ == '__main__':
     while True:
         raw = input("Введите через пробел последовательность чисел: ")
-        parts = raw.strip().split()
+        parts = raw.split(DELIMITER)
 
         if not parts:
             print("Вы ничего не ввели! Попробуйте снова.")
