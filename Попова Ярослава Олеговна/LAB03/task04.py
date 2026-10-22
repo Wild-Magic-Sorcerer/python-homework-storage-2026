@@ -2,7 +2,7 @@
 
 from functools import reduce
 
-DELIMITER = None
+DELIMITER = " "
 
 def w_statistic(words: list[str]) -> tuple:
     """
@@ -26,7 +26,7 @@ if __name__ == '__main__':
 
     while True:
         raw = input("Введите список слов: ")
-        parts = raw.strip().split(DELIMITER)
+        parts = raw.split(DELIMITER)
 
         if not parts:
             print("Вы ничего не ввели! Попробуйте снова.")
