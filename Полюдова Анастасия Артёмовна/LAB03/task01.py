@@ -47,3 +47,4 @@ if __name__ == '__main__':
         for res in result_1:
             result_2: str = lambda_func(res)
             print(res, ':', result_2)
+            
