@@ -40,9 +40,7 @@ def reveal_fortune(n):
                 results.append(result)
 
             return results
-
         return inner_func
-
     return decorator
 
 
