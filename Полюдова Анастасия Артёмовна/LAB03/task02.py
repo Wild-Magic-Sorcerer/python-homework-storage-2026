@@ -50,3 +50,4 @@ if __name__ == '__main__':
     result_2: list[dict] = insertion_sort(result_1)
 
     print(result_2)
+    
