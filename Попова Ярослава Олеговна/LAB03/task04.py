@@ -4,15 +4,27 @@ from functools import reduce
 
 DELIMITER = " "
 
-def w_statistic(words: list[str]) -> tuple:
+def w_statistic(words: list[str]) -> dict:
     """
-    Фильтрует слова, преобразует их в кортежи и вычисляет статистику.
-    Возвращает промежуточные и итоговые результаты.
+    Фильтрует слова, преобразует их в словари и вычисляет статистику.
+
+    Параметры:
+    words — исходный список строк, полученный от пользователя.
+
+    Возвращает:
+    Словарь с промежуточными (отфильтрованные слова, маппинг) 
+    и итоговыми (самое длинное слово, сумма букв) результатами.
     """
+
     filtered = list(filter(lambda w: len(w) >= 7, words))
 
     if not filtered:
-        return [], [], None, 0
+        return {
+            "filtered": [],
+            "mapped": [],
+            "max_word": None,
+            "total_letters": 0
+        }
 
     mapped = list(map(lambda w: {"word": w, "length": len(w)}, filtered))
 
@@ -20,7 +32,12 @@ def w_statistic(words: list[str]) -> tuple:
 
     total_letters = reduce(lambda acc, x: acc + x["length"], mapped, 0)
 
-    return filtered, mapped, max_word, total_letters
+    return {
+        "filtered": filtered,
+        "mapped": mapped,
+	"max_word": max_word,
+	"total_letters": total_letters
+    }
 
 if __name__ == '__main__':
 
@@ -33,13 +50,13 @@ if __name__ == '__main__':
             continue
         break
 
-    res_filtered, res_mapped, res_max, res_total = w_statistic(parts)
+    results = w_statistic(parts)
 
-    print(f"Отфильтрованные слова (>= 7 символов): {res_filtered}")
-    print(f"Преобразованные в пары (слово, длина): {res_mapped}")
+    print(f"Отфильтрованные слова (>= 7 символов): {results['filtered']}")
+    print(f"Преобразованные в пары (слово, длина): {results['mapped']}")
 
-    if not res_filtered:
+    if not results['filtered']:
         print("Нет слов, удовлетворяющих условию (длина >= 7).")
     else:
-        print(f"Слово с максимальной длиной: '{res_max['word']}' (длина {res_max['length']})")
-        print(f"Суммарное количество букв: {res_total}")
+        print(f"Слово с максимальной длиной: '{results['max_word']['word']}' (длина {results['max_word']['length']})")
+        print(f"Суммарное количество букв: {results['total_letters']}")

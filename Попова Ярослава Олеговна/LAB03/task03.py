@@ -2,10 +2,15 @@
 
 import random
 
-def filter_nums(numbers: list[int]) -> tuple[list[int], list[int], list[int]]:
+def filter_nums(numbers: list[int]) -> dict[str, list[int]]:
     """
     Фильтрует список чисел по трем условиям с помощью filter и lambda.
-    Возвращает три новых списка.
+
+    Параметры:
+    numbers — исходный список случайных целых чисел.
+
+    Возвращает:
+    Словарь, где ключи — названия условий, а значения — отфильтрованные списки.
     """
 
     cond1 = list(filter(lambda x: x % 3 == 0 and x % 9 != 0, numbers))
@@ -14,7 +19,11 @@ def filter_nums(numbers: list[int]) -> tuple[list[int], list[int], list[int]]:
 
     cond3 = list(filter(lambda x: (x % 3 == 0 and x % 9 != 0) and abs(x) > 20, numbers))
 
-    return cond1, cond2, cond3
+    return {
+        "cond1": cond1,
+        "cond2": cond2,	
+        "cond3": cond3
+    }
 
 if __name__ == '__main__':
 
@@ -22,13 +31,13 @@ if __name__ == '__main__':
 
     print(f"Исходный список ({len(random_nums)} шт.):\n{random_nums}\n")
 
-    res1, res2, res3 = filter_nums(random_nums)
+    results = filter_nums(random_nums)
 
-    print(f"1. Делятся на 3, но не на 9 (длина {len(res1)}):")
-    print(res1)
+    print(f"1. Делятся на 3, но не на 9 (длина {len(results['cond1'])}):")
+    print(results['cond1'])
 
-    print(f"2. Модуль больше 20 (длина {len(res2)}):")
-    print(res2)
+    print(f"2. Модуль больше 20 (длина {len(results['cond2'])}):")
+    print(results['cond2'])
 
-    print(f"3. Подходят под оба условия (длина {len(res3)}):")
-    print(res3)
+    print(f"3. Подходят под оба условия (длина {len(results['cond3'])}):")
+    print(results['cond3'])
