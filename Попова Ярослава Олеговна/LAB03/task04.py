@@ -60,3 +60,4 @@ if __name__ == '__main__':
     else:
         print(f"Слово с максимальной длиной: '{results['max_word']['word']}' (длина {results['max_word']['length']})")
         print(f"Суммарное количество букв: {results['total_letters']}")
+

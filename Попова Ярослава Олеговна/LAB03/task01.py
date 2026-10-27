@@ -41,3 +41,4 @@ if __name__ == '__main__':
     print("Результаты проверки:")
     for num, category in results:
         print(f"{num} — {category}")
+

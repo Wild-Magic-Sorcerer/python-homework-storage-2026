@@ -68,3 +68,4 @@ if __name__ == '__main__':
     print("\nИтоговый список:")
     for item in final_results:
         print(item)
+

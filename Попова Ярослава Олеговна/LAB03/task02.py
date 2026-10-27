@@ -37,3 +37,4 @@ if __name__ == '__main__':
     print("Товары с учетом скидки (по возрастанию цены):")
     for item in updated_products:
         print(item)
+

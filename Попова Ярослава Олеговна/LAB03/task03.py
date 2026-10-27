@@ -41,3 +41,4 @@ if __name__ == '__main__':
 
     print(f"3. Подходят под оба условия (длина {len(results['cond3'])}):")
     print(results['cond3'])
+
