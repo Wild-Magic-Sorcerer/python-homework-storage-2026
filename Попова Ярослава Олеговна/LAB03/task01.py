@@ -18,6 +18,7 @@ if __name__ == '__main__':
     while True:
         raw = input("Введите целые числа через пробел: ")
         parts = raw.split(DELIMITER)
+        clean_parts = list(filter(None, parts))
 
         if not parts:
             print("Ошибка! Вы ничего не ввели")
