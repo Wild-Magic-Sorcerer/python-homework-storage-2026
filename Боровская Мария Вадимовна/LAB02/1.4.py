@@ -16,51 +16,6 @@ def otobrat_stroki(**kwargs):
     return itog
 
 
-def zapusk_filtratsii():
-    while True:
-        parametry = {}
-
-        while True:
-            vvod = input(
-                "Введите пары ключ=значение через пробел: "
-            ).strip()
-            if not vvod:
-                print("Ошибка: пустой ввод.")
-                continue
-
-            parametry = {}
-            oshibka = False
-            for para in vvod.split():
-                if "=" not in para:
-                    print(
-                        f"Ошибка: '{para}' без знака '='. "
-                    )
-                    oshibka = True
-                    break
-                klyuch, znachenie = para.split("=", 1)
-                if not klyuch or not znachenie:
-                    print(
-                        f"Ошибка: '{para}' пустой ключ "
-                    )
-                    oshibka = True
-                    break
-                parametry[klyuch] = znachenie
-
-            if not oshibka:
-                break
-
-        rezultat = otobrat_stroki(**parametry)
-        if rezultat:
-            print("Результат:", rezultat)
-        else:
-            print("Нет слов с 3+ гласными.")
-
-        prodolzhit = input(
-            "Продолжить -enter, стоп - выход "
-        ).strip().lower()
-        if prodolzhit == "стоп":
-            break
-
-
 if __name__ == "__main__":
-    zapusk_filtratsii()
+    rezultat = otobrat_stroki(city="Санкт-Петербург", animal="носорог", )
+    print(rezultat)
