@@ -2,7 +2,7 @@
 
 
 def faktorial_rekursiya(n):
-    if n == 0:
+    if n <= 1:
         return 1
     return n * faktorial_rekursiya(n - 1)
 
