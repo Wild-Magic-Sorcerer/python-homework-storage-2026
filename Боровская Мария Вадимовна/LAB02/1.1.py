@@ -8,7 +8,7 @@ def dlinnye_stroki(stroki):
     return [s for s in stroki if len(s) > srednyaya]
 
 
-def obrabotka_strok():
+if __name__ == "__main__":
     while True:
         spisok = []
 
@@ -18,19 +18,14 @@ def obrabotka_strok():
                 print("Ошибка: пустой ввод. Попробуйте еще раз.")
                 continue
             spisok = vvod.split()
-            if len(spisok) == 0:
+            if not(spisok):
                 print("Ошибка: нужно хотя бы одно слово.")
                 continue
             break
 
         print("Результат:", dlinnye_stroki(spisok))
-
-        prodolzhit = input(
-            "Продолжить -enter, стоп - выход : "
-        ).strip().lower()
-        if prodolzhit == "стоп":
+        
+        exit_ = ""
+        prodolzhit = input("Нажмите Enter для выхода: ").strip()
+        if prodolzhit == exit_:
             break
-
-
-if __name__ == "__main__":
-    obrabotka_strok()
