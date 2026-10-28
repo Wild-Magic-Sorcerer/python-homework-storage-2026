@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+
+
 def umnozhit_tselye(*args):
     tselye = [z for z in args if type(z) is int]
     if not tselye:
@@ -13,35 +15,11 @@ def umnozhit_tselye(*args):
     return itog
 
 
-def zapusk_umnozheniya():
-    while True:
-        while True:
-            vvod = input("Введите значения через пробел: ").strip()
-            if not vvod:
-                print("Ошибка: пустой ввод. Попробуйте еще раз.")
-                continue
-            break
-
-        argumenty = []
-        for slovo in vvod.split():
-            if slovo.lstrip("-").isdigit():
-                argumenty.append(int(slovo))
-            else:
-                try:
-                    argumenty.append(float(slovo))
-                except ValueError:
-                    argumenty.append(slovo)
-
-        rezultat = umnozhit_tselye(*argumenty)
-        if rezultat is not None:
-            print("Результат:", rezultat)
-
-        prodolzhit = input(
-            "Продолжить -enter, стоп - выход"
-        ).strip().lower()
-        if prodolzhit == "стоп":
-            break
-
-
 if __name__ == "__main__":
-    zapusk_umnozheniya()
+    rezultat_1 = umnozhit_tselye(3.22, True, "аргумент")
+    rezultat_2 = umnozhit_tselye(1, 2, 3)
+
+    if rezultat_1 is not None:
+        print("Результат 1:", rezultat_1)
+    if rezultat_2 is not None:
+        print("Результат 2:", rezultat_2)
