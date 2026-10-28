@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 
 
+exit_ = ""
+
+
 def dlinnye_stroki(stroki):
     if not stroki:
         return []
@@ -25,7 +28,6 @@ if __name__ == "__main__":
 
         print("Результат:", dlinnye_stroki(spisok))
         
-        exit_ = ""
         prodolzhit = input("Нажмите Enter для выхода: ").strip()
         if prodolzhit == exit_:
             break
