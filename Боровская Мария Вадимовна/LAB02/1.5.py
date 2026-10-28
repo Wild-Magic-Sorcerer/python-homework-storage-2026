@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 
 
+exit_ = ""
+
+
 def faktorial_rekursiya(n):
     if n <= 1:
         return 1
@@ -14,7 +17,7 @@ def faktorial_tsikl(n):
     return itog
 
 
-def zapros_i_vychislenie():
+if __name__ == "__main__":
     while True:
         chislo = 0
 
@@ -48,12 +51,6 @@ def zapros_i_vychislenie():
         print(f"Рекурсивно: {faktorial_rekursiya(chislo)}")
         print(f"Итеративно: {faktorial_tsikl(chislo)}")
 
-        prodolzhit = input(
-            "Продолжить -enter, стоп - выход"
-        ).strip().lower()
-        if prodolzhit == "стоп":
+        prodolzhit = input("Нажмите Enter для выхода: ").strip()
+        if prodolzhit == exit_:
             break
-
-
-if __name__ == "__main__":
-    zapros_i_vychislenie()
