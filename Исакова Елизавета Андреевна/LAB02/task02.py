@@ -1,4 +1,4 @@
-DELIMITER = ','
+DELIMITER = ' '
 
 def increase(data):
     inc_sort = sorted(data)
@@ -9,44 +9,35 @@ def decrease(data):
     return tuple(dec_sort)
 
 if __name__ == "__main__":
+    numbers_lst = []
     while True:
-        numbers = input('Введите последовательность чисел для сортировки через запятую:\n')
-        numbers_lst = None
+        numbers = input(f'Введите последовательность чисел для сортировки через {DELIMITER}:\n')
 
-        if not numbers:
+        if not numbers.strip():
             print('Вы ничего не ввели! Попробуйте еще раз')
             continue
 
-        if DELIMITER not in numbers:
-            print('Вы ввели числа не через запятую! Попробуйте еще раз')
-            continue
-
         numbers = numbers.split(DELIMITER)
+        numbers = [num for num in numbers if num]
+
         valid = True
         for number in numbers:
-            strip_number = number.strip()
-            if not strip_number:
+            try:
+                float(number)
+            except ValueError:
                 valid = False
-                print(f'Не пишите лишние "{DELIMITER}"!')
-                break
-            if ' ' in strip_number:
-                valid = False
-                print(f'{strip_number} - это не одно число, их нужно разделять "{DELIMITER}"!')
+                print(f'{number} - это не число! Попробуйте еще раз')
                 break
 
         if not valid:
             continue
 
-        try:
-            numbers_lst = [float(number.strip()) for number in numbers]
-        except ValueError:
-            print('Вы ввели не число! Попробуйте еще раз')
-            continue
+        numbers_lst = [float(number) for number in numbers]
         break
 
     while True:
         incr_or_decr = input('Если вы хотите отсортировать по возрастанию, введите: +\n'
-                            'Если вы хотите отсортировать по убыванию, введите: -\n')
+                             'Если вы хотите отсортировать по убыванию, введите: -\n')
 
         if not incr_or_decr:
             print('Вы ничего не ввели! Попробуйте еще раз')
