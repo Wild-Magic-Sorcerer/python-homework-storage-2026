@@ -3,74 +3,125 @@
 Демонстрирует наследование, инкапсуляцию и полиморфизм.
 """
 
+DEFAULT_BALANCE = 0
+DEFAULT_INTEREST_RATE = 0.05
+MAX_WITHDRAWAL_PERCENT = 0.5
+
 class BankAccount:
     """Базовый класс банковского счета."""
-    def __init__(self, owner, balance=0):
-        """Инициализация счета с владельцем и балансом."""
-        if balance < 0:
+
+    def __init__(self, owner, balance=DEFAULT_BALANCE):
+        """
+        Инициализация счета с владельцем и балансом.
+
+        :param owner: владелец счета
+        :param balance: начальный баланс
+        """
+        if balance < DEFAULT_BALANCE:
             raise ValueError('Баланс не может быть меньше 0!')
-        self.__balance = balance
-        self.__owner = owner
-        self.__transaction = []
+        self._balance = balance
+        self._owner = owner
+        self._transaction = []
 
     @property
     def balance(self):
-        """Возвращает текущий баланс счета."""
-        return self.__balance
+        """
+        Возвращает текущий баланс счета.
+
+        :return: текущий баланс
+        """
+        return self._balance
 
     @property
     def owner(self):
-        """Возвращает владельца счета."""
-        return self.__owner
+        """
+        Возвращает владельца счета.
+
+        :return: владелец счета
+        """
+        return self._owner
 
     @property
     def transaction(self):
-        """Возвращает копию истории транзакций."""
-        return [d.copy() for d in self.__transaction]
+        """
+        Возвращает копию истории транзакций.
+
+        :return: копия списка транзакций
+        """
+        return [d.copy() for d in self._transaction]
 
     def increase_amount(self, amount):
-        """Пополняет счет на указанную сумму."""
-        if amount <= 0:
+        """
+        Пополняет счет на указанную сумму.
+
+        :param amount: сумма пополнения
+        """
+        if amount <= DEFAULT_BALANCE:
             raise ValueError('Сумма пополнения не может быть 0 или меньше!')
-        self.__balance += amount
-        self.__transaction.append({'operation': 'depositing money',
-                                   'amount': amount,
-                                   'new_balance': self.__balance})
+        self._balance += amount
+        self._transaction.append({'operation': 'depositing money',
+                                  'amount': amount,
+                                  'new_balance': self._balance})
 
     def decrease_amount(self, amount):
-        """Снимает указанную сумму со счета."""
-        if amount <= 0:
+        """
+        Снимает указанную сумму со счета.
+
+        :param amount: сумма снятия
+        """
+        if amount <= DEFAULT_BALANCE:
             raise ValueError('Сумма снятия не может быть 0 или меньше!')
-        if amount > self.__balance:
+        if amount > self._balance:
             raise ValueError('Недостаточно средств!')
-        self.__balance -= amount
-        self.__transaction.append({'operation': 'withdrawing money',
-                                   'amount': amount,
-                                   'new_balance': self.__balance})
+        self._balance -= amount
+        self._transaction.append({'operation': 'withdrawing money',
+                                  'amount': amount,
+                                  'new_balance': self._balance})
 
     @classmethod
-    def create(cls, owner, balance=0):
-        """Создает объект счета через классовый метод."""
+    def create(cls, owner, balance=DEFAULT_BALANCE):
+        """
+        Создает объект счета через классовый метод.
+
+        :param owner: владелец счета
+        :param balance: начальный баланс
+        :return: объект BankAccount
+        """
         return cls(owner, balance)
 
 class SavingsAccount(BankAccount):
     """Класс сберегательного счета с процентной ставкой."""
-    def __init__(self, owner, balance=0, interest_rate=0.05):
-        """Инициализация сберегательного счета с процентной ставкой."""
+
+    def __init__(self, owner, balance=DEFAULT_BALANCE, interest_rate=DEFAULT_INTEREST_RATE):
+        """
+        Инициализация сберегательного счета с процентной ставкой.
+
+        :param owner: владелец счета
+        :param balance: начальный баланс
+        :param interest_rate: процентная ставка
+        """
         super().__init__(owner, balance)
-        if interest_rate < 0:
+        if interest_rate < DEFAULT_BALANCE:
             raise ValueError('Процентная ставка не может быть меньше 0!')
-        self.__interest_rate = interest_rate
+        self._interest_rate = interest_rate
 
     def interest_accrual(self):
-        """Начисляет проценты на текущий баланс."""
-        new_amount = self.balance * self.__interest_rate
-        if new_amount > 0:
+        """
+        Начисляет проценты на текущий баланс.
+
+        :return: None
+        """
+        new_amount = self.balance * self._interest_rate
+        if new_amount > DEFAULT_BALANCE:
             self.increase_amount(new_amount)
 
     def decrease_amount(self, amount):
-        """Снимает сумму со счета (не более 50% от баланса)."""
-        if amount > self.balance * 0.5:
+        """
+        Снимает сумму со счета (не более 50% от баланса).
+
+        :param amount: сумма снятия
+        """
+        if amount > self.balance * MAX_WITHDRAWAL_PERCENT:
             raise ValueError('Нельзя снять более 50% от текущего баланса!')
         super().decrease_amount(amount)
 
@@ -125,7 +176,7 @@ if __name__ == '__main__':
 
     print('\nПолиморфное поведение метода снятия денег для обычного и сберегательного счёта')
     bank_account = BankAccount.create("Обычный", 1000)
-    savings_account = SavingsAccount("Сберегательный", 1000, interest_rate=0.05)
+    savings_account = SavingsAccount("Сберегательный", 1000, interest_rate=DEFAULT_INTEREST_RATE)
 
     print(f"Обычный счёт: {bank_account.balance} руб.")
     print(f"Сберегательный счёт: {savings_account.balance} руб.")
@@ -142,3 +193,4 @@ if __name__ == '__main__':
         print(f"Снятие со сберегательного счета. Баланс: {savings_account.balance}")
     except ValueError as e:
         print(f"Ошибка: {e}")
+        
