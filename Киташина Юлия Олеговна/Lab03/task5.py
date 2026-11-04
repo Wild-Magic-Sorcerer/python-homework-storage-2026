@@ -7,7 +7,6 @@ def repeat(times: int):
     Создаёт декоратор, который вызывает функцию times раз.
 
     :param times: Сколько раз вызвать функцию
-    :type times: int
     :return: Декоратор для функции
     """
     def decorator(func):
@@ -28,10 +27,16 @@ def square(value: int) -> int:
     Возводит число в квадрат.
 
     :param value: Целое число
-    :type value: int
     :return: Квадрат числа
     """
     return value * value
 
 
-print("Результаты:", square(5))
+def main() -> None:
+    """
+    Вызывает декорированную функцию и печатает список результатов.
+    """
+    print("Результаты:", square(5))
+
+
+main()
