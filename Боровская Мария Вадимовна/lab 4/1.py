@@ -82,19 +82,15 @@ class Taxi(Transport):
 
 
 if __name__ == "__main__":
-    # 1. Создание через конструктор
     avtobus = Bus(50, 30, "№15")
     taksi = Taxi(80, 4, 20)
 
-    # 2. Создание через классовый метод
     gruzovik = Truck.from_dict({"speed": 70, "capacity": 2, "max_weight": 10, "cost_per_km": 50})
     print(f"Создан грузовик: {gruzovik.get_info()}")
 
-    # 3. Вызов метода БЕЗ создания объекта (сразу у класса)
     print(f"\nВызов from_dict напрямую у класса: {Transport.from_dict({'speed': 10, 'capacity': 5}).get_info()}")
 
-    # 4. Попытка задать недопустимые значения
-    print("\n--- проверки ошибок ---")
+    print("проверки ошибок")
     try:
         Bus(-10, 30, "№1")
     except ValueError as oshibka:
@@ -105,9 +101,8 @@ if __name__ == "__main__":
     except ValueError as oshibka:
         print(f"ошибка ёмкости: {oshibka}")
 
-    # 5. Полиморфный вызов
-    print("\n--- полиморфизм ---")
+    print("полиморфизм")
     for transport in [avtobus, gruzovik, taksi]:
         print(transport.get_info())
         if transport.is_fast():
-            print("  -> быстрый!")
+            print("ура быстрый!")
