@@ -14,7 +14,6 @@ def add_final_price(products: list[dict]) -> list[dict]:
     Добавляет к каждому товару поле final_price, цену со скидкой.
 
     :param products: Список словарей с полями name, price и discount
-    :type products: list[dict]
     :return: Новый список новых словарей с полем final_price
     """
     return list(map(
@@ -30,9 +29,7 @@ def merge_sort(items: list[dict], key: Callable[[dict], float]) -> list[dict]:
     Сортирует список по возрастанию значения key(item) слиянием.
 
     :param items: Исходный список, он не меняется
-    :type items: list[dict]
     :param key: Функция, которая по элементу даёт значение для сравнения
-    :type key: Callable[[dict], float]
     :return: Новый отсортированный список
     """
     if len(items) <= 1:
@@ -55,14 +52,21 @@ def merge_sort(items: list[dict], key: Callable[[dict], float]) -> list[dict]:
     return merged
 
 
-with_prices = add_final_price(PRODUCTS)
-print("Товары с итоговой ценой:")
-for product in with_prices:
-    print(product)
-ordered = merge_sort(with_prices, lambda product: product["final_price"])
-print("По возрастанию final_price:")
-for product in ordered:
-    print(product)
-print("Исходные товары без изменений:")
-for product in PRODUCTS:
-    print(product)
+def main() -> None:
+    """
+    Печатает товары с итоговой ценой, отсортированный список и исходный.
+    """
+    with_prices = add_final_price(PRODUCTS)
+    print("Товары с итоговой ценой:")
+    for product in with_prices:
+        print(product)
+    ordered = merge_sort(with_prices, lambda product: product["final_price"])
+    print("По возрастанию final_price:")
+    for product in ordered:
+        print(product)
+    print("Исходные товары без изменений:")
+    for product in PRODUCTS:
+        print(product)
+
+
+main()
