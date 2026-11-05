@@ -266,3 +266,4 @@ if __name__ == '__main__':
 
     for vehicle in fleet:
         print(vehicle.get_info())
+

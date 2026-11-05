@@ -373,3 +373,4 @@ if __name__ == '__main__':
         if worker.is_alive:
             savings = worker.calc_retirement_savings()
             print(f"{worker._name} накопит до пенсии ({RETIREMENT_AGE} лет): {savings} руб.")
+
