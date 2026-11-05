@@ -40,8 +40,10 @@ class Employee(Person, ABC):
     """Сотрудник."""
 
     def __init__(self, name, gender, age, position, salary, expenses):
-        """Инициализация сотрудника."""
+        """Инициализация сотрудника с валидацией всех полей."""
         super().__init__(name, gender, age)
+        if not position:
+            raise ValueError("должность не может быть пустой")
         if salary < 0 or expenses < 0:
             raise ValueError("зарплата и расходы не могут быть отрицательными")
         self.position = position
@@ -75,20 +77,20 @@ class Employee(Person, ABC):
         pass
 
 
-class Director(Employee):
-    """Директор школы."""
+class Manager(Employee):
+    """Менеджер (директор)."""
 
     def __init__(self, name, gender, age, position, salary, expenses, subordinates):
         super().__init__(name, gender, age, position, salary, expenses)
         self.subordinates = subordinates
 
     def get_info(self):
-        """Возвращает информацию о директоре."""
+        """Возвращает информацию о менеджере."""
         return f"{super().get_info()}, подчинённых: {len(self.subordinates)}"
 
     def work(self):
-        """Имитация работы директора."""
-        return f"директор {self.name} подписывает документы."
+        """Имитация работы менеджера."""
+        return f"менеджер {self.name} подписывает документы."
 
     def hire(self, person):
         """Добавляет подчиненного."""
@@ -100,67 +102,60 @@ class Director(Employee):
             self.subordinates.pop()
 
     def meeting(self):
-        """Проводит педсовет."""
-        return f"педсовет! {self.name} собрал {len(self.subordinates)} учителей."
+        """Проводит митинг."""
+        return f"митинг.. {self.name} собрал {len(self.subordinates)} подчинённых."
 
 
-class EnglishTeacher(Employee):
-    """Учитель английского языка."""
+class Developer(Employee):
+    """Разработчик."""
 
     def __init__(self, name, gender, age, position, salary, expenses, languages):
         super().__init__(name, gender, age, position, salary, expenses)
         self.languages = languages
 
     def get_info(self):
-        """Возвращает информацию об учителе английского."""
-        return f"{super().get_info()}, знает языки: {', '.join(self.languages)}"
+        """Возвращает информацию о разработчике."""
+        return f"{super().get_info()}, языки: {', '.join(self.languages)}"
 
     def work(self):
-        """Имитация работы учителя."""
-        lang = random.choice(self.languages) if self.languages else "English"
-        return f"учитель {self.name} ведет урок на {lang}."
+        """Имитация работы разработчика."""
+        lang = random.choice(self.languages) if self.languages else "Python"
+        return f"разработчик {self.name} пишет код на {lang}."
 
 
-class SecurityGuard(Employee):
-    """Охранник школы."""
+class Designer(Employee):
+    """Дизайнер."""
 
-    def __init__(self, name, gender, age, position, salary, expenses, equipment):
+    def __init__(self, name, gender, age, position, salary, expenses, tools):
         super().__init__(name, gender, age, position, salary, expenses)
-        self.equipment = equipment
+        self.tools = tools
 
     def get_info(self):
-        """Возвращает информацию об охраннике."""
-        return f"{super().get_info()}, имеет при себе: {self.equipment}"
+        """Возвращает информацию о дизайнере."""
+        return f"{super().get_info()}, инструменты: {', '.join(self.tools)}"
 
     def work(self):
-        """Имитация работы охранника."""
-        return f"охранник {self.name} обходит здание с {self.equipment}."
+        """Имитация работы дизайнера."""
+        return f"дизайнер {self.name} работает с инструментами: {', '.join(self.tools)}."
 
-
-class PE_Teacher(Employee):
-    """Учитель физкультуры."""
-
-    def __init__(self, name, gender, age, position, salary, expenses, sport_tools):
-        super().__init__(name, gender, age, position, salary, expenses)
-        self.sport_tools = sport_tools
-
-    def get_info(self):
-        """Возвращает информацию об учителе физкультуры."""
-        return f"{super().get_info()}, использует инвентарь: {', '.join(self.sport_tools)}"
-
-    def work(self):
-        """Имитация работы учителя физкультуры."""
-        tool = self.sport_tools[0] if self.sport_tools else "свисток"
-        return f"учитель физкультуры {self.name} проводит разминку с {tool}."
+    def create_mockup(self):
+        """Создает макет."""
+        tool = self.tools[0] if self.tools else "Figma"
+        return f"дизайнер {self.name} создал макет в {tool}."
 
 
 if __name__ == "__main__":
-    direktor = Director("Евгений", "м", 60, "Директор", 120000, 60000, ["Иван", "Мария"])
-    anglichanin = EnglishTeacher("Марина", "ж", 50, "Учитель английского", 80000, 40000, ["English", "Russian"])
-    ohranik = SecurityGuard("Александр", "м", 50, "Охранник", 40000, 30000, "рация")
-    fizra = PE_Teacher("Алла", "ж", 40, "Учитель физкультуры", 70000, 60000, ["мяч", "свисток"])
+    menedzher = Manager("Евгений", "м", 60, "Директор", 120000, 60000, ["Иван", "Мария"])
+    razrabotchik = Developer("Марина", "ж", 50, "Разработчик", 80000, 40000, ["Python", "C++"])
+    dizayner = Designer("Александр", "м", 40, "Дизайнер", 70000, 50000, ["Figma", "Photoshop"])
 
-    workers = [direktor, anglichanin, ohranik, fizra]
+    print("проверка валидации")
+    try:
+        Manager("Тест", "м", 30, "", 50000, 30000, [])
+    except ValueError as oshibka:
+        print(f"ошибка: {oshibka}")
+
+    workers = [menedzher, razrabotchik, dizayner]
 
     print("информация о сотрудниках")
     for sotrudnik in workers:
@@ -170,6 +165,14 @@ if __name__ == "__main__":
     for sotrudnik in workers:
         print(sotrudnik.work())
 
+    print("создание макета")
+    print(dizayner.create_mockup())
+
+    print("работа менеджера")
+    menedzher.hire("Новый сотрудник")
+    print(menedzher.meeting())
+    menedzher.fire()
+
     print("проверка на смерть")
-    bednyak = SecurityGuard("Василий", "м", 40, "Охранник", 30000, 50000, "фонарик")
+    bednyak = Developer("Василий", "м", 30, "Junior", 30000, 50000, ["Python"])
     bednyak.check_alive()
