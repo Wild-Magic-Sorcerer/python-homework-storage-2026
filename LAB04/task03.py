@@ -493,3 +493,4 @@ if __name__ == '__main__':
     for employee in employees:  #полиморфный work()
         result = employee.work()
         print(result)
+        
