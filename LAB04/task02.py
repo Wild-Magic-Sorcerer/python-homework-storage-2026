@@ -54,7 +54,7 @@ class BankAccount:
 
 
     @property
-    def owner(self):
+    def cardholder(self):
         """
         Метод, который позволяет прочитать имя владельца счета.
 
@@ -141,10 +141,10 @@ class BankAccount:
 
         :return: Новый объект класса.
         """
-        owner = dictionary.get('cardholder')
+        cardholder = dictionary.get('cardholder')
         balance = dictionary.get('balance')
 
-        if not cls.check_string(owner):
+        if not cls.check_string(cardholder):
             raise ValueError('Некорректное имя владельца')
 
         if not cls.check_value(balance) or balance < 0:
