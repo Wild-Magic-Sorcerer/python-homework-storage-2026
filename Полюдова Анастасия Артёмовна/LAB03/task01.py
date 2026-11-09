@@ -17,7 +17,7 @@ def type_sh():
     :return: Преобразованные целые значения или None,
     если ни одно значение не удалось преобразовать.
     """
-    text: str = input('Введите целые числа: ').strip()
+    text: str = input('Введите целые числа через пробел: ').strip()
 
     if not text:
         print('Пустовато..')
@@ -29,13 +29,13 @@ def type_sh():
         try:
             number: int = int(x)
         except ValueError:
+            print(f'Значение "{x}" не является целым числом и будет пропущено')
             continue
 
         numbers.append(number)
 
     if not numbers:
-        print('???')
-        return None
+        print('Не удалось получить ни одного целого числа')
 
     return numbers
 
@@ -43,7 +43,7 @@ def type_sh():
 if __name__ == '__main__':
     result_1 = type_sh()
 
-    if result_1 is not None:
+    if result_1:
         for res in result_1:
             result_2: str = lambda_func(res)
             print(res, ':', result_2)
