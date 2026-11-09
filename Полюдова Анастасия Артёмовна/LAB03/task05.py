@@ -4,7 +4,8 @@
 from random import choice
 
 
-TARO_CARDS: list[str] = [
+MAG_NUMBER = 3
+TARO_CARDS = (
     'Звезда',
     'Дьявол',
     'Смерть',
@@ -17,7 +18,7 @@ TARO_CARDS: list[str] = [
     'Маг',
     'Шут',
     'Сова на скакалке'
-]
+)
 
 
 def reveal_fortune(n):
@@ -44,7 +45,7 @@ def reveal_fortune(n):
     return decorator
 
 
-@reveal_fortune(3)
+@reveal_fortune(MAG_NUMBER)
 def draw_card():
     """
     Моя личная функция, которая случайно выбирает карту Таро.
