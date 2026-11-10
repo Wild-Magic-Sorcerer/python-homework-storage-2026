@@ -1,15 +1,32 @@
 #!/usr/bin/env python3
 
 
-PRODUCTS: list[dict] = [
-    {'name': 'Laptop', 'price': 89990, 'discount': 10},
-    {'name': 'Mouse', 'price': 2490, 'discount': 15},
-    {'name': 'Keyboard', 'price': 5490, 'discount': 0},
-    {'name': 'Monitor', 'price': 27990, 'discount': 25}
-]
+def create_dict():
+    """
+    Функция, которая позволяет пользователю формировать
+    список стандартизированных словарей с информацией о товарах.
+
+    :return: Список словарей с информацией о товарах.
+    """
+    products_list: list[dict] = []
+    count: int = int(input('Введите количество товаров: '))
+
+    for _ in range(count):
+        name: str = input('Введите название товара: ')
+        price: float = float(input('Введите цену товара: '))
+        discount: float = float(input('Введите скидку на товар: '))
+
+        product: dict = {
+            'name': name,
+            'price': price,
+            'discount': discount
+        }
+        products_list.append(product)
+
+    return products_list
 
 
-def w_final_price(products: list[dict]):
+def w_final_price(products_list: list[dict]):
     """
     Функция, которая создает новый список словарей с информацией о товарах
     и добавляет для каждого товара final_price с учётом скидки.
@@ -20,7 +37,7 @@ def w_final_price(products: list[dict]):
     """
     final_price = lambda product: {
          **product, 'final_price': product['price'] * (100 - product['discount']) / 100}
-    result: list[dict] = list(map(final_price, products))
+    result: list[dict] = list(map(final_price, products_list))
 
     return result
 
@@ -46,6 +63,7 @@ def insertion_sort(spisok: list[dict]):
 
 
 if __name__ == '__main__':
+    products: list[dict] = create_dict()
     result_1: list[dict] = w_final_price(PRODUCTS)
     result_2: list[dict] = insertion_sort(result_1)
 
