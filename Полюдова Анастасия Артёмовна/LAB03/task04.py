@@ -5,6 +5,7 @@ from functools import reduce
 
 
 STANDARD_DELIMITED: str = ' '
+MAG_NUMBER: int = 7
 
 
 def type_text():
@@ -12,13 +13,13 @@ def type_text():
     Функция, которая получает текст от пользователя
     и возвращает список введённых слов.
 
-    :return: Список введённых слов или None при пустом вводе.
+    :return: Список введённых слов.
     """
     text: str = input('Введите слова: ').strip()
 
     if not text:
         print('Пустовато..')
-        return None
+        return []
 
     return text.split(STANDARD_DELIMITED)
 
@@ -31,7 +32,7 @@ def handle_text(value: list[str]):
 
     :return: Словарь с промежуточными и итоговыми результатами.
     """
-    var_1 = lambda x: len(x) >= 7
+    var_1 = lambda x: len(x) >= MAG_NUMBER
     result_1: list[str] = list(filter(var_1, value))
 
     var_2 = lambda x: {'word': x, 'length': len(x)}
@@ -39,10 +40,10 @@ def handle_text(value: list[str]):
 
     if not result_1:
         return {
-            'key_1': result_1,
-            'key_2': result_2,
-            'key_3': None,
-            'key_4': 0
+            'filtered_words': result_1,
+            'words_w_length': result_2,
+            'the_longest': None,
+            'total': 0
         }
 
     var_3 = lambda x, y: x if len(x) > len(y) else y
@@ -54,22 +55,22 @@ def handle_text(value: list[str]):
     result_4: int = reduce(var_4, lengths, 0)
 
     return {
-        'key_1': result_1,
-        'key_2': result_2,
-        'key_3': result_3,
-        'key_4': result_4
+        'filtered_words': result_1,
+        'words_w_length': result_2,
+        'the_longest': result_3,
+        'total': result_4
     }
 
 
 if __name__ == '__main__':
     value_1 = type_text()
 
-    if value_1 is not None:
+    if value_1 :
         value_2: dict = handle_text(value_1)
 
-        print('Исходный список:', value_1)
-        print('Слова длиной не менее 7 символов:', value_2['key_1'])
-        print('Слова и их длины:', value_2['key_2'])
-        print('Слово с максимальной длиной:', value_2['key_3'])
-        print('Суммарное количество букв:', value_2['key_4'])
+        print(f'Исходный список: {value_1}')
+        print(f'Слова длиной не менее {MAG_NUMBER} символов: 'f'{value_2["filtered_words"]}')
+        print(f'Слова и их длины: 'f'{value_2["words_w_length"]}')
+        print( f'Слово с максимальной длиной: 'f'{value_2["the_longest"]}')
+        print(f'Суммарное количество букв: 'f'{value_2["total"]}')
         
