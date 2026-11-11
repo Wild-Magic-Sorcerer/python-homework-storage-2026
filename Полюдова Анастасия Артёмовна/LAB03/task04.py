@@ -15,7 +15,7 @@ def type_text():
 
     :return: Список введённых слов.
     """
-    text: str = input('Введите слова: ').strip()
+    text: str = input('Введите слова через пробел: ').strip()
 
     if not text:
         print('Пустовато..')
