@@ -64,7 +64,7 @@ def insertion_sort(spisok: list[dict]):
 
 if __name__ == '__main__':
     products: list[dict] = create_dict()
-    result_1: list[dict] = w_final_price(PRODUCTS)
+    result_1: list[dict] = w_final_price(products)
     result_2: list[dict] = insertion_sort(result_1)
 
     print(result_2)
