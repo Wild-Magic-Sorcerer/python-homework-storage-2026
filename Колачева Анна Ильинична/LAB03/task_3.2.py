@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+
 PRODUCTS: list[dict] = [
         {"name": "Laptop", "price": 89990, "discount": 10},
         {"name": "Mouse", "price": 2490, "discount": 15},
@@ -8,11 +9,8 @@ PRODUCTS: list[dict] = [
     ]
 
 
-def main() -> None:
-    """
-    Обработка списка товаров и расчёт финальных цен.
-    """
-
+if __name__ == "__main__":
+        
     updated_products: list[dict] = list( map( lambda item: {**item, "final_price": item["price"] * (1 - item["discount"] / 100)}, PRODUCTS))
 
     sorted_products: list[dict] = sorted(updated_products, key=lambda x: x["final_price"])
@@ -26,7 +24,3 @@ def main() -> None:
             f"Скидка: {product['discount']:>2}% | "
             f"Итого: {product['final_price']:>8.2f}"
         )
-
-
-if __name__ == "__main__":
-    main()
