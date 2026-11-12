@@ -32,10 +32,12 @@ class Person:
         else:
             raise ValueError('Пол должен быть непустой строкой')
 
-        if type(age) == int and age >= 0:
-            self._age = age
-        else:
-            raise ValueError('Возраст должен быть целым неотрицательным числом')
+        if type(age) != int:
+            raise ValueError('Возраст должен быть целым числом')
+
+        if age < 0:
+            raise ValueError('Возраст не может быть отрицательным')
+        self._age = age
 
 
     @staticmethod
