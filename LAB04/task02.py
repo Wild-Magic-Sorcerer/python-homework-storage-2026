@@ -50,7 +50,13 @@ class BankAccount:
 
         :return: True, если все тип-топ.
         """
-        return type(value) == str and bool(value.strip())
+        if type(value) != str:
+            return False
+
+        if value.strip():
+            return True
+
+        return False
 
 
     @property
