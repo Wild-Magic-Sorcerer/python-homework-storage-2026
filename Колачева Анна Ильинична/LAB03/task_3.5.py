@@ -3,7 +3,6 @@ def repeat_n_times(n: int):
     Декоратор для многократного вызова функции.
     
     :param n: Количество повторений
-    :type n: int
     """
     def decorator(func):
         def wrapper(*args, **kwargs):
@@ -22,23 +21,15 @@ def ask_for_extension(deadline: str) -> str:
     Просит преподавателя продлить дедлайн.
     
     :param deadline: Дата дедлайна
-    :type deadline: str
     :return: Ответ преподавателя
     """
     return f"Нет, сдавай до {deadline}!"
 
 
-def main() -> None:
-    """
-    Основная функция.
-    """
+if __name__ == "__main__":
     answers: str = ask_for_extension("понедельника")
     
     print("\nРезультаты переговоров:")
     print("-" * 30)
     for answer in answers:
         print(answer)
-
-
-if __name__ == "__main__":
-    main()
