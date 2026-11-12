@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 
 
+DEFAULT_SPEED = 0.0
+DEFAULT_CAPACITY = 1
+
+
 class Transport:
     """
     Родительский класс, в котором находятся основные характеристики транспорта.
@@ -13,6 +17,8 @@ class Transport:
 
         :param capacity: Емкость транспорта.
         """
+        self._speed = DEFAULT_SPEED
+        self._capacity = DEFAULT_CAPACITY
         self.speed = speed
         self.capacity = capacity
 
@@ -50,8 +56,13 @@ class Transport:
 
         :return: True, если все тип-топ.
         """
-        return type(value) == str and bool(value.strip())
+        if type(value) != str:
+            return False
 
+        if value.strip():
+            return True
+
+        return False
 
     @property
     def speed(self):
