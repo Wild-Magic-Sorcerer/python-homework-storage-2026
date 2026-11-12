@@ -1,48 +1,30 @@
 #!/usr/bin/env python3
 
 
-def class_number(n: int) -> str:
+def user_input():
     """
-    Классифицирует целое число.
-    
-    :param n: Целое число для классификации
-    :return: Строка с описанием критерия числа
-    """
-    if n > 0:
-        return "positive even" if n % 2 == 0 else "positive odd"
-    elif n < 0:
-        return "negative"
-    return "zero"
+    Получение списка целых чисел от пользователя.
 
+    :return: список введённых чисел
+    """
 
-def get_valid_list() -> list[int]:
-    """
-    Запрашивает у пользователя список целых чисел.
-    
-    :return: Список валидных целых чисел
-    """
     while True:
         try:
-            raw_input: str = input("Введите числа через пробел: ")
-            numbers: list[int] = [int(x) for x in raw_input.split()]
-            return numbers
+            numbers = list(map(int, input("Введите целые числа через пробел: ").split()))
+            break
         except ValueError:
-            print("Ошибка: введите только целые числа.")
-
-
-def main() -> None:
-    """
-    Основная программа.
-    """
-    numbers: list[int] = get_valid_list()
-    
-    results: list[tuple[int, str]] = [(n, class_number(n)) for n in numbers]
-    
-    print("\nРезультаты:")
-    print("-" * 30)
-    for num, classification in results:
-        print(f"{num:>6} → {classification}")
-
+            print("пожалуйста,вводите только целые числа.")
+    return numbers
 
 if __name__ == "__main__":
-    main()
+
+    lambda_number = lambda x: (
+    "positive even" if x > 0 and x % 2 == 0 else
+    "positive odd" if x > 0 and x % 2 != 0 else
+    "negative" if x < 0 else
+    "zero")
+
+    num_list = user_input()
+
+    for num in num_list:
+        print(f'{num}: {lambda_number(num)}\n')
