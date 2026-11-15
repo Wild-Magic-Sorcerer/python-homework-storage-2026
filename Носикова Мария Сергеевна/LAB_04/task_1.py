@@ -8,13 +8,17 @@ MIN_CAPACITY = 1
 class Transport:
     """
     Класс транспортного средства.
-
-    :param speed: скорость транспорта (км/ч)
-    :param capacity: вместимость транспорта (количество мест)
     """
     def __init__(self, speed, capacity):
-        self.__speed = MIN_SPEED
-        self.__capacity = MIN_CAPACITY
+        """
+        Инициализирует транспортное средство.
+        
+        :param speed: Скорость транспорта (км/ч).
+        :param capacity: Вместимость транспорта (количество мест).
+        :raises ValueError: Если скорость или вместимость некорректны.
+        """
+        self._speed = MIN_SPEED
+        self._capacity = MIN_CAPACITY
         self.speed = speed
         self.capacity = capacity
 
@@ -23,7 +27,7 @@ class Transport:
         """
         Возвращает текущую скорость транспорта
         """
-        return self.__speed
+        return self._speed
 
 
     @speed.setter
@@ -31,17 +35,16 @@ class Transport:
         """
         Устанавливает скорость и проверяет её корректность. 
 
-        :param value: Новое значение скорости
+        :param value: Новое значение скорости.
+        :raises ValueError: Если значение некорректно.
         """
         try:
             value = int(value)
         except (ValueError, TypeError):
-            print(f"Ошибка!\n Значение скорости должно быть целым числом.")
-            return
-        if value < MIN_SPEED or value > MAX_SPEED:
-            print(f"Ошибка!\n Скорость должна быть в диапазоне от {MIN_SPEED} до {MAX_SPEED}")
-            return
-        self.__speed = value
+            raise ValueError("Значение скорости должно быть целым числом.")
+        if not (MIN_SPEED <= value <= MAX_SPEED):
+            raise ValueError(f"Скорость должна быть в диапазоне от {MIN_SPEED} до {MAX_SPEED}")
+        self._speed = value
 
 
     @property
@@ -49,7 +52,7 @@ class Transport:
         """
         Возвращает текущую вместимость транспорта
         """
-        return self.__capacity
+        return self._capacity
 
 
     @capacity.setter 
@@ -67,16 +70,14 @@ class Transport:
         if value < MIN_CAPACITY or value > MAX_CAPACITY:
             print(f"Ошибка:\n вместимость должна быть в диапазоне от {MIN_CAPACITY} до {MAX_CAPACITY}")
             return
-        self.__capacity = value
+        self._capacity = value
 
 
-    def get_info(self):
+    def __str__(self):
         """
         Возвращает строку с характеристиками транспорта
-
-        :return: Строка с описанием
         """ 
-        return f"Скорость: {self.__speed} км/ч \n Вместимость: {self.__capacity}"
+        return f"Скорость: {self._speed} км/ч \n Вместимость: {self._capacity}"
 
 
     def is_speed_exceeded(self, limit):
@@ -86,7 +87,7 @@ class Transport:
         :param limit: Пороговое значение скорости
         :return: True, если скорость выше порога, иначе - False
         """ 
-        return self.__speed > limit
+        return self._speed > limit
 
 
     @classmethod
@@ -94,8 +95,8 @@ class Transport:
         """
         Создает объект Transort из словаря. Необходимо для уникальных параметров для этого дочернего класса.
 
-        :param data: Словарь с ключами "speed", "capacity", "route"
-        :return: Новый объект bus
+        :param data: Словарь с ключами "speed", "capacity"
+        :return: Новый объект Transport
         """
         return cls(speed = data["speed"], capacity = data["capacity"])
 
@@ -103,16 +104,20 @@ class Transport:
 class Bus(Transport):
     """
     Автобус - наследник Transport.
-    Добавляет маршрут
-
-    :param speed: Скорость (км/ч)
-    :param capacity: Вместимость (количество мест)
-    :param route: Маршрут автобуса
+    Добавляет маршрут.
     """
     def __init__(self, speed, capacity, route):
+        """
+        Инициализирует автобус.
+
+        :param speed: Скорость (км/ч).
+        :param capacity: Вместимость (количество мест).
+        :param route: Маршрут автобуса.
+        """
         super().__init__(speed, capacity)
         self.__route = route
-
+        self.route = route
+    
 
     @property
     def route(self):
@@ -120,6 +125,19 @@ class Bus(Transport):
         Возвращает маршрут автобуса
         """
         return self.__route
+
+
+    @route.setter
+    def route(self, value):
+        """
+        Устанавливает маршрут.
+
+        :param value: Маршрут автобуса.
+        :raises ValueError: Если маршрут некорректен.
+        """
+        if not isinstance(value, str) or not value.strip():
+            raise ValueError("Маршрут должен быть непустой строкой.")
+        self.__route = value.strip()
 
 
     @classmethod
@@ -137,62 +155,110 @@ class Bus(Transport):
         )
     
 
-    def get_info(self):
+    def __str__(self):
         """
         Возвращает строку с характеристиками автобуса
-
-        :return: Строка с описанием
         """
-        return f"{super().get_info()},\n Маршрут: {self.__route}"
+        return f"{super().__str__()},\n Маршрут: {self.__route}"
 
 
 class Truck(Transport):
     """
     Грузовик - наследник Transort.
-    Добавляет грузоподъемность и расчет стоимости перевозки.
-
-    :param speed: Скорость (км/ч)
-    :param capacity: Вместимость (количество мест)
-    :param load_capacity: Грузоподъемность (т)
+    Добавляет грузоподъемность.
     """
 
     def __init__(self, speed, capacity, load_capacity):
+        """
+        Инициализирует грузовик.
+
+        :param speed: Скорость (км/ч).
+        :param capacity: Вместимость (количество мест).
+        :param load_capacity: Грузоподъёмность (т).
+        :raises ValueError: Если параметры некорректны.
+        """
         super().__init__(speed, capacity)
+        self.__load_capacity = None
         self.load_capacity = load_capacity
 
 
+    @property
+    def load_capacity(self):
+        """Возвращает грузоподъёмность."""
+        return self.__load_capacity
+
+
+    @load_capacity.setter
+    def load_capacity(self, value):
+        """
+        Устанавливает грузоподъёмность.
+
+        :param value: Грузоподъёмность в тоннах.
+        :raises ValueError: Если значение некорректно.
+        """
+        try:
+            value = float(value)
+        except (ValueError, TypeError):
+            raise ValueError("Грузоподъёмность должна быть числом.")
+        if value <= 0:
+            raise ValueError("Грузоподъёмность должна быть положительным числом.")
+        self.__load_capacity = value
+
     def calculate_delivery_cost(self, distance, price_for_km):
         """
-        Рассчитывает стоимость перевозки 
+        Рассчитывает стоимость перевозки.
 
-        :param distance: Расстояние в км
-        :param price_for_km: Цена за км
-        :return: Стоимость перевозки
+        :param distance: Расстояние в км.
+        :param price_for_km: Цена за км.
+        :return: Стоимость перевозки.
         """
         return distance * price_for_km
 
-
-    def get_info(self):
-        """
-        Возвращает строку с характеристиками грузовика
-
-        :return: Строка с описанием
-        """
-        return f"{super().get_info()}, \n Грузоподъемность: {self.load_capacity} тонн"
+    def __str__(self):
+        """Возвращает строку с характеристиками грузовика."""
+        return f"{super().__str__()},\n Грузоподъёмность: {self.__load_capacity} тонн"
 
 
 class Taxi(Transport):
     """
     Такси - наследник Transort.
     Добавляет тариф и расчет стоимости поездки.
-
-    :param speed: Скорость (км/ч)
-    :param capacity: Вместимость (количетсво мест)
-    :param rate: Тариф за километр
     """
     def __init__(self, speed, capacity, rate):
+        """
+        Инициализирует такси.
+
+        :param speed: Скорость (км/ч).
+        :param capacity: Вместимость (количество мест).
+        :param rate: Тариф за километр.
+        :raises ValueError: Если параметры некорректны.
+        """
         super().__init__(speed, capacity)
+        self.__rate = None
         self.rate = rate 
+
+
+    @property
+    def rate(self):
+        """Возвращает тариф."""
+        return self.__rate
+
+
+    @rate.setter
+    def rate(self, value):
+        """
+        Устанавливает тариф.
+
+        :param value: Тариф за километр.
+        :raises ValueError: Если значение некорректно.
+        """
+        try:
+            value = float(value)
+        except (ValueError, TypeError):
+            raise ValueError("Тариф должен быть числом.")
+        if value <= 0:
+            raise ValueError("Тариф должен быть положительным числом.")
+        self.__rate = value
 
     def calculate_trip_cost(self, distance):
         """
@@ -204,12 +270,11 @@ class Taxi(Transport):
         return distance * self.rate
 
 
-    def get_info(self):
+    def __str__(self):
         """
-        Возвращает строку с характеристиками такси
-        :return: Строка с описанием
+        Возвращает строку с характеристиками такси.
         """
-        return f"{super().get_info()},\n Тариф: {self.rate} рублей/км"
+        return f"{super().__str__()},\n Тариф: {self.__rate} рублей/км"
 
 
 if __name__ == '__main__':
@@ -218,46 +283,42 @@ if __name__ == '__main__':
     truck = Truck(speed=45, capacity=1, load_capacity=11.50)
     taxi = Taxi(speed=75, capacity=4, rate = 20.15)
 
-    print(bus.get_info())
-    print(truck.get_info())
-    print(taxi.get_info())
+    print(bus)
+    print(truck)
+    print(taxi)
 
 
     print("Создание через классовый метод")
     data_bus = {"speed": 68, "capacity": 45, "route": "Санкт-Петербург - Великий Новгород"}
     bus_from_dict = Bus.from_dict(data_bus)
-    print(f"Автобус из словаря: {bus_from_dict.get_info()}")
+    print(f"Автобус из словаря: {bus_from_dict}")
 
     data_transport = {"speed": 100, "capacity": 4}
     transport_from_dict = Transport.from_dict(data_transport)
-    print(f"Транспорт из словаря: {transport_from_dict.get_info()}")
+    print(f"Транспорт из словаря: {transport_from_dict}")
 
 
-    print("Попытка задать недопустимую скорость или вместимость")  
-    bad_transport_1 = Transport(speed=30, capacity=0)
-    print(f"Результат: {bad_transport_1.get_info()}")
-    bad_transport_2 = Transport(speed=1000, capacity=25)
-    print(f"Результат: {bad_transport_2.get_info()}")
+    print("\n Проверка валидации:")
+    try:
+        bad_transport_1 = Transport(speed=30, capacity=0)
+    except ValueError as e:
+        print(f"Ошибка вместимости: {e}")
 
+    try:
+        bad_transport_2 = Transport(speed=1000, capacity=25)
+    except ValueError as e:
+        print(f"Ошибка скорости: {e}")
 
-    print("Вызов методов без создания объекта")
-    try: 
-        Transport.get_info()
-    except TypeError as i:
-        print(f"Ошибка: {i}")
+    print("\n Полиморфизм:")
+    many_transport = (bus, truck, taxi)
+    for t in many_transport:
+        print("--", t)
 
-
-    print("Полиморфный вызов методов для списка разных транспортных средств")
-    many_transort = [bus, truck, taxi]
-    print("Информация о всех транспортных средствах:")
-    for t in many_transort:
-        print( "--", t.get_info())
-
-    print("Проверка превышения скорости (порог 60 км/ч):")
-    for t in many_transort:
+    print("\n Проверка превышения скорости (порог 60 км/ч):")
+    for t in many_transport:
         exceeded = t.is_speed_exceeded(60)
         print(f" - {t.__class__.__name__}: {'превысил' if exceeded else 'не превысил'}")
 
-    print("Расчет стоимости поездки на 150 км")
+    print("\n Расчет стоимости поездки на 150 км:")
     print(f" - Грузовик: {truck.calculate_delivery_cost(150, 18.04)} руб")
-    print(f"- Такси: {taxi.calculate_trip_cost(100)} руб")
+    print(f" - Такси: {taxi.calculate_trip_cost(150)} руб")
