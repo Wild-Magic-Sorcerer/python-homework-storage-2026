@@ -1,10 +1,9 @@
 import random
-
+DEFAULT_GENDER_MALE = "м"
+DEFAULT_GENDER_FEMALE = "ж"
 
 class Person:
     """Человек: имя, пол, возраст"""
-    VALID_GENDERS = ("м", "ж")
-
     def __init__(self, name, gender, age):
         """
         Создает человека с параметрами:
@@ -14,25 +13,28 @@ class Person:
         """
         if not isinstance(name, str) or not name.strip():
             raise ValueError("Имя должно быть непустой строкой")
-        if gender not in self.VALID_GENDERS:
-            raise ValueError(f"Пол должен быть одним из: {self.VALID_GENDERS}")
+        if gender not in (DEFAULT_GENDER_MALE, DEFAULT_GENDER_FEMALE):
+            raise ValueError(f"Пол должен быть одним из: {(DEFAULT_GENDER_MALE, DEFAULT_GENDER_FEMALE)}")
         if not isinstance(age, int) or age <= 0:
             raise ValueError("Возраст должен быть положительным целым числом")
-        self.__name = name
-        self.__gender = gender
-        self.__age = age
+        self._name = name
+        self._gender = gender
+        self._age = age
 
     @property
     def name(self):
-        return self.__name
+        """возвращает имя"""
+        return self._name
 
     @property
     def gender(self):
-        return self.__gender
+        """возвращает пол"""
+        return self._gender
 
     @property
     def age(self):
-        return self.__age
+        """возвращает возраст"""
+        return self._age
 
     @classmethod
     def create(cls, name, gender, age):
@@ -75,14 +77,17 @@ class Employee(Person):
 
     @property
     def position(self):
+        """возвращает должность"""
         return self.__position
 
     @property
     def salary(self):
+        """возвращает зарплату"""
         return self.__salary
 
     @property
     def expenses(self):
+        """возвращает расходы"""
         return self.__expenses
 
     def work(self):
@@ -104,43 +109,60 @@ class Employee(Person):
         return monthly_savings * 12 * years_left
 
     def introduce(self):
-        return (f"{super().introduce()} +  должность: {self.position}, зарплата: {self.salary}")
+        """возвращает строку с представлением сотрудника, включая зп и должность"""
+        return super().introduce() +  f"должность: {self.position}, зарплата: {self.salary}"
 
 
 class Manager(Employee):
     """Менеджер: список подчинённых, митинги"""
 
     def __init__(self, name, gender, age, position, salary, expenses):
+        """
+        создает менеджера
+        :param name: имя
+        :param gender: пол
+        :param age: возраст
+        :param position: должность
+        :param salary: зарплата
+        :param expenses: расходы
+        """
         super().__init__(name, gender, age, position, salary, expenses)
         self.__subordinates = []
 
     @property
     def subordinates(self):
+        """возвращает список подчиненных"""
         return list(self.__subordinates)
 
     def add_subordinate(self, person):
+        """добавляет подчиненного, если он человек"""
         if not isinstance(person, Person):
             raise TypeError("Подчинённый должен быть Person")
         if person not in self.__subordinates:
             self.__subordinates.append(person)
 
     def remove_subordinate(self, person):
+        """удаляет подчиненного"""
         if person in self.__subordinates:
             self.__subordinates.remove(person)
 
     def hold_meeting(self):
+        """проводит митинг для никого или для подчиненных"""
         if not self.__subordinates:
             return f"{self.name} проводит митинг, но подчинённых нет"
         names = ", ".join(p.name for p in self.__subordinates)
         return f"{self.name} проводит митинг для: {names}"
 
     def subordinate_count(self):
+        """посчитать подчиненных"""
         return len(self.__subordinates)
 
     def work(self):
+        """описание работы менеджера"""
         return f"{self.name} управляет {self.subordinate_count()} подчинёнными"
 
     def introduce(self):
+        """представление менеджера с учетом количества подчиненных"""
         return super().introduce()+ f" подчинённых: {self.subordinate_count()}"
 
 class Developer(Employee):
@@ -164,13 +186,16 @@ class Developer(Employee):
 
     @property
     def languages(self):
+        """возвращает список языков"""
         return list(self.__languages)
 
     def work(self):
+        """описывает работу разработчика на примере одного случайного языка"""
         lang = random.choice(self.__languages)
         return f"{self.name} пишет код на {lang}"
 
     def introduce(self):
+        """представление разработчика с случайным учетом одного из его языков програмирования"""
         langs = ", ".join(self.languages)
         return super().introduce() + f", языки: {langs}"
 
@@ -180,6 +205,16 @@ class Designer(Employee):
     """Дизайнер: инструменты, макеты"""
 
     def __init__(self, name, gender, age, position, salary, expenses, tools):
+        """
+        создает дизайнера
+        :param name: имя
+        :param gender: пол
+        :param age: возраст
+        :param position: должность
+        :param salary: зарплата
+        :param expenses: расходы
+        :param tools: инструменты
+        """
         super().__init__(name, gender, age, position, salary, expenses)
         if not tools:
             raise ValueError("Нужен хотя бы один инструмент")
@@ -187,16 +222,20 @@ class Designer(Employee):
 
     @property
     def tools(self):
+        """возвращает иинструменты"""
         return list(self.__tools)
 
     def work(self):
+        """описывает работу дизайнера на примере одного случайного инструмента"""
         tool = random.choice(self.__tools)
         return f"{self.name} создаёт макет в {tool}"
 
     def create_model(self):
+        """создает модель"""
         return self.work()
 
     def introduce(self):
+        """представляет дизайнера с учетом одного случайного инструмента из списка"""
         tools = ", ".join(self.tools)
         return super().introduce() + f" инструменты: {tools}"
 

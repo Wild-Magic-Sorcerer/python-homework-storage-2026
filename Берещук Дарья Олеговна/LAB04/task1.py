@@ -15,28 +15,47 @@ class Transport:
             raise ValueError("Скорость должна быть > 0")
         if capacity <= 0:
             raise ValueError("Ёмкость должна быть > 0")
-        self.__speed = speed
-        self.__capacity = capacity
+        self._speed = speed
+        self._capacity = capacity
 
     @property
     def speed(self):
-        return self.__speed
+        """возвращает скорость"""
+        return self._speed
 
     @property
     def capacity(self):
-        return self.__capacity
+        """возвращает емкость"""
+        return self._capacity
 
-    def info(self):
+    def __str__(self):
+        """
+        возвращает информацию о транспорте
+        :return: строка вида "Скорость:..., Ёмкость:..."
+        """
         return f"Скорость: {self.speed}, Ёмкость: {self.capacity}"
 
     def is_fast(self, limit=100):
+        """
+        Проверяет, превышает ли скорость транспорта заданную отметку
+        :param limit: заданная отметка для сравнения (автоматически 100)
+        :return: True - если превышает, иначе False
+        """
         return self.speed > limit
 
     @classmethod
     def from_dict(cls, some_dict):
-        #Создаёт объект из словаря с ключами speed и capacity
-        return cls(some_dict["speed"], some_dict["capacity"])
-
+        """
+        Создает объект транспорта из словаря
+        :param some_dict: словарь
+        :return: новый обьект класса cls
+        :raises ValueError: если в словаре отсутствует ключ "speed" или "capacity"
+        """
+        speed = some_dict.get("speed")
+        capacity = some_dict.get("capacity")
+        if speed is None or capacity is None:
+            raise ValueError("В словаре должны быть ключи speed и capacity")
+        return cls(speed, capacity)
 
 class Bus(Transport):
     """Автобус: транспорт с маршрутом"""
@@ -52,21 +71,34 @@ class Bus(Transport):
 
     @property
     def route(self):
+        """возвращает маршрут"""
         return self.__route
 
     @route.setter
-    #Устанавливает маршрут с проверкой на непустую строку
     def route(self, value):
+        """Устанавливает маршрут с проверкой на непустую строку"""
         if not isinstance(value, str) or not value.strip():
             raise ValueError("Надо написать маршрут текстом и маршрут не должен быть пустой строкой")
         self.__route = value
 
-    def info(self):
-        return {super().info()} + f", Маршрут: {self.route}"
+    def __str__(self):
+        """возвращает информацию о автобусе, включая маршрут"""
+        return super().__str__() + f", Маршрут: {self.route}"
 
     @classmethod
     def from_dict(cls, some_dict):
-        return cls(some_dict["speed"],some_dict["capacity"],some_dict["route"])
+        """
+        Создает объект автобуса из словаря
+        :param some_dict: словарь
+        :return: новый обьект класса Bus
+        :raises ValueError: если в словаре отсутствует один из нужных ключей
+        """
+        speed = some_dict.get("speed")
+        capacity = some_dict.get("capacity")
+        route = some_dict.get("route")
+        if speed is None or capacity is None or route is None:
+            raise ValueError("В словаре должны быть ключи speed, capacity и route")
+        return cls(speed, capacity, route)
 
 
 class Truck(Transport):
@@ -83,18 +115,36 @@ class Truck(Transport):
 
     @property
     def load_capacity(self):
+        """возвращает грузоподьемность грузовика"""
         return self.__load_capacity
 
     def delivery_cost(self, distance, price_per_km=10):
+        """
+        рассчитывает стоимость перевозки
+        :param distance: расстояние
+        :param price_per_km:цена за км (автоматически 10)
+        :return:цена перевозки
+        """
         return distance * price_per_km + self.load_capacity * 5
 
-    def info(self):
-        return super().info() + f", грузоподъёмность: {self.load_capacity}"
+    def __str__(self):
+        """возвращает строку с характеристиками грузовика, включая грузоподьемность"""
+        return super().__str__() + f", грузоподъёмность: {self.load_capacity}"
 
     @classmethod
     def from_dict(cls, some_dict):
-        return cls(some_dict["speed"], some_dict["capacity"], some_dict["load_capacity"])
-
+        """
+        возвращает грузовик из словаря
+        :param some_dict: словарь
+        :return: новый обект класса грузовик
+        :raises ValueError если нет одного из ключей
+        """
+        speed = some_dict.get("speed")
+        capacity = some_dict.get("capacity")
+        load_capacity = some_dict.get("load_capacity")
+        if speed is None or capacity is None or load_capacity is None:
+            raise ValueError("В словаре должны быть ключи speed, capacity и load_capacity")
+        return cls(speed, capacity, load_capacity)
 
 class Taxi(Transport):
     """Такси: транспорт с тарифом за километр"""
@@ -110,18 +160,35 @@ class Taxi(Transport):
 
     @property
     def tariff(self):
+        """возвращает тариф"""
         return self.__tariff
 
     def ride_cost(self, distance):
+        """
+        рассчитывает стоимость поездки
+        :param distance: расстояние
+        :return:стоимость поездки
+        """
         return distance * self.tariff
 
-    def info(self):
-        return super().info() + f", Тариф: {self.tariff}"
+    def __str__(self):
+        """возвращает строку с характеристиками такси, включая тариф"""
+        return super().__str__() + f", Тариф: {self.tariff}"
 
     @classmethod
     def from_dict(cls, some_dict):
-        return cls(some_dict["speed"], some_dict["capacity"], some_dict["tariff"])
-
+        """
+        создает такси из словаря
+        :param some_dict: словарь
+        :return: новый обьект класса такси
+        :raises ValueError если нет одного из ключей
+        """
+        speed = some_dict.get("speed")
+        capacity = some_dict.get("capacity")
+        tariff = some_dict.get("tariff")
+        if speed is None or capacity is None or tariff is None:
+            raise ValueError("В словаре должны быть ключи speed, capacity и tariff")
+        return cls(speed, capacity, tariff)
 
 #ДЕМОНСТРАЦИЯ
 # 1. Создание объектов через конструктор
@@ -131,9 +198,9 @@ truck = Truck(70, 2, 5000)
 taxi = Taxi(80, 4, 25)
 
 print("1. Создание через конструктор:")
-print(bus.info())
-print(truck.info())
-print(taxi.info())
+print(bus)
+print(truck)
+print(taxi)
 
 #из словаря
 print("1.2. Создание из словаря")
@@ -142,10 +209,10 @@ b1 = Bus.from_dict({"speed": 50, "capacity": 30, "route": "№20"})
 tr1 = Truck.from_dict({"speed": 70, "capacity": 2, "load_capacity": 5000})
 tx1 = Taxi.from_dict({"speed": 80, "capacity": 4, "tariff": 25})
 
-print(t1.info())
-print(b1.info())
-print(tr1.info())
-print(tx1.info())
+print(t1)
+print(b1)
+print(tr1)
+print(tx1)
 
 #2. Попытка задать недопустимую скорость
 print("2. Попытка задать недопустимую скорость:")
@@ -157,14 +224,14 @@ except ValueError:
 
 #3. вызов метода без создания объекта
 print("3. вызов метода без создания объекта")
-print(Transport.from_dict({"speed": 55, "capacity": 25}).info())
+print(Transport.from_dict({"speed": 55, "capacity": 25}))
 
 
 #4. полиморфный вызов метода для списка разных транспортных средств.
 print("4. Полиморфный вызов метода info")
-vehicles = [bus, truck, taxi]
+vehicles = (bus, truck, taxi)
 for v in vehicles:
-    print(v.info())
+    print(v)
 
 
 

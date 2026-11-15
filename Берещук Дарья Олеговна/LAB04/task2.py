@@ -11,64 +11,73 @@ class BankAccount:
             raise ValueError("Владелец должен быть непустой строкой")
         if balance < 0:
             raise ValueError("Начальный баланс не может быть отрицательным")
-        self.__owner = owner
-        self.__balance = balance
-        self.__history = []
+        self._owner = owner
+        self._balance = balance
+        self._history = []
         if balance > 0:
-            self.__history.append(f"Открытие счёта: {balance}")
+            self._history.append(f"Открытие счёта: {balance}")
 
     @property
     def owner(self):
-        #узнать владелльца
-        return self.__owner
+        """узнать владелльца"""
+        return self._owner
 
     @property
     def balance(self):
-        #узнать баланс
-        return self.__balance
+        """узнать баланс"""
+        return self._balance
 
     def get_history(self):
-        #Возвращает копию истории, а не внутренний список
-        return list(self.__history)
+        """Возвращает копию истории, а не внутренний список"""
+        return list(self._history)
 
     def _validate_amount(self, amount):
-        #Проверяет сумму на правильность значения
-        if not isinstance(amount, (int, float)):
+        """Проверяет сумму на правильность значения"""
+        if type(amount) not in (int, float):
             raise TypeError("Сумма должна быть числом")
         if amount <= 0:
             raise ValueError("Сумма должна быть положительной")
 
     def deposit(self, amount):
-        #Пополняет счёт на сумму (amount)
+        """
+        Пополняет счёт на сумму (amount)
+        :param amount: сумма пополнения
+        """
         self._validate_amount(amount)
-        self.__balance += amount
-        self.__history.append(f"Пополнение: +{amount}")
+        self._balance += amount
+        self._history.append(f"Пополнение: +{amount}")
 
     def withdraw(self, amount):
-        #Снимает сумму со счёта
+        """
+        Снимает сумму со счёта
+        :param amount: сумма снятия
+        """
         self._validate_amount(amount)
-        if amount > self.__balance:
+        if amount > self._balance:
             raise ValueError("Недостаточно средств")
-        self.__balance -= amount
-        self.__history.append(f"Снятие: -{amount}")
+        self._balance -= amount
+        self._history.append(f"Снятие: -{amount}")
 
     @classmethod
     def create(cls, owner, balance=0):
-        #возможность создать объект класса при помощи публичного метода.
-            return cls(owner, balance)
+        """возможность создать объект класса при помощи публичного метода"""
+        return cls(owner, balance)
 
-    def info(self):
+    def __str__(self):
+        """выводит строку с информацией о аккаунте"""
         return f"Владелец: {self.owner}, Баланс: {self.balance}"
 
+
+DEFAULT_INTEREST_RATE = 5
 
 class SavingsAccount(BankAccount):
     """Сберегательный счёт: процентная ставка + переопределяет метод снятия, нельзя снять более 50% баланса за одну операцию."""
 
-    def __init__(self, owner, balance=0, interest_rate=5):
+    def __init__(self, owner, balance=0, interest_rate= DEFAULT_INTEREST_RATE):
         """
         :param owner: владелец
         :param balance: баланс, автоматически 0
-        :param interest_rate: процентная ставка, автоматически 5, должна быть больше 0
+        :param interest_rate: процентная ставка, DEFAULT_INTEREST_RATE = 5
         """
         super().__init__(owner, balance)
         if interest_rate <= 0:
@@ -77,6 +86,7 @@ class SavingsAccount(BankAccount):
 
     @property
     def interest_rate(self):
+        """возвращает процентную ставку"""
         return self.__interest_rate
 
     def apply_interest(self):
@@ -103,7 +113,7 @@ print("1. Корректные операции:")
 acc = BankAccount.create("Иван", 1000)
 acc.deposit(500)
 acc.withdraw(200)
-print(acc.info())
+print(acc)
 print(f"Вывод истории операций: \n{acc.get_history()}")
 
 #2. ошибки при отрицательной сумме и превышении баланса;
