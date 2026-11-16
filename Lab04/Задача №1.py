@@ -3,15 +3,20 @@
 class Transport:
     """
     Базовый класс для описания транспорта.
+    
     Хранит скорость и ёмкость транспорта (приватные атрибуты),
+    
     предоставляет доступ к ним через свойства с валидацией.
     """
+    
     def __init__(self, speed, capacity):
         """
         Конструктор класса Transport.
+        
         Параметры:
             speed (int | float): скорость транспорта (км/ч).
             capacity (int): ёмкость транспорта (количество людей/груза).
+            
         Возвращает:
             None
         """
@@ -24,8 +29,10 @@ class Transport:
     def speed(self):
         """
         Свойство для чтения значения скорости.
+        
         Параметры:
             Нет.
+            
         Возвращает:
             int | float: текущая скорость транспорта.
         """
@@ -35,10 +42,13 @@ class Transport:
     def speed(self, value):
         """
         Сеттер скорости с валидацией.
+        
         Параметры:
             value (int | float): новое значение скорости.
+            
         Возвращает:
             None
+            
         Исключения:
             ValueError: если значение не положительное число.
         """
@@ -50,8 +60,10 @@ class Transport:
     def capacity(self):
         """
         Свойство для чтения значения ёмкости.
+        
         Параметры:
             Нет.
+            
         Возвращает:
             int: текущая ёмкость транспорта.
         """
@@ -61,10 +73,13 @@ class Transport:
     def capacity(self, value):
         """
         Сеттер ёмкости с валидацией.
+        
         Параметры:
             value (int): новое значение ёмкости.
+            
         Возвращает:
             None
+            
         Исключения:
             ValueError: если значение не целое положительное число.
         """
@@ -75,8 +90,10 @@ class Transport:
     def get_info(self):
         """
         Возвращает строку с основными характеристиками транспорта.
+        
         Параметры:
             Нет.
+            
         Возвращает:
             str: строка с описанием скорости и ёмкости.
         """
@@ -85,8 +102,10 @@ class Transport:
     def is_faster_than(self, threshold):
         """
         Проверяет, превышает ли скорость транспорта заданное значение.
+        
         Параметры:
             threshold (int | float): пороговое значение скорости.
+            
         Возвращает:
             bool: True, если скорость больше порога, иначе False.
         """
@@ -96,8 +115,10 @@ class Transport:
     def from_dict(cls, data):
         """
         Классовый метод для создания объекта Transport из словаря.
+        
         Параметры:
             data (dict): словарь с ключами 'speed' и 'capacity'.
+            
         Возвращает:
             Transport: новый объект класса Transport.
         """
@@ -107,15 +128,18 @@ class Transport:
 class Bus(Transport):
     """
     Класс автобуса, наследующий Transport.
+    
     Добавляет маршрут автобуса.
     """
     def __init__(self, speed, capacity, route):
         """
         Конструктор класса Bus.
+        
         Параметры:
             speed (int | float): скорость.
             capacity (int): ёмкость.
             route (str): маршрут автобуса.
+            
         Возвращает:
             None
         """
@@ -126,8 +150,10 @@ class Bus(Transport):
     def route(self):
         """
         Свойство для чтения маршрута.
+        
         Параметры:
             Нет.
+            
         Возвращает:
             str: маршрут автобуса.
         """
@@ -137,10 +163,13 @@ class Bus(Transport):
     def route(self, value):
         """
         Сеттер маршрута с валидацией.
+        
         Параметры:
             value (str): новый маршрут.
+            
         Возвращает:
             None
+            
         Исключения:
             ValueError: если маршрут пустой.
         """
@@ -151,8 +180,10 @@ class Bus(Transport):
     def get_info(self):
         """
         Возвращает расширенную информацию об автобусе (включая маршрут).
+        
         Параметры:
             Нет.
+            
         Возвращает:
             str: строка с характеристиками и маршрутом.
         """
@@ -162,16 +193,19 @@ class Bus(Transport):
 class Truck(Transport):
     """
     Класс грузовика, наследующий Transport.
+    
     Добавляет грузоподъёмность и расчёт стоимости перевозки.
     """
     def __init__(self, speed, capacity, load_capacity, price_per_ton_km):
         """
         Конструктор класса Truck.
+        
         Параметры:
             speed (int | float): скорость.
             capacity (int): ёмкость.
             load_capacity (int | float): грузоподъёмность в тоннах.
             price_per_ton_km (int | float): цена за тонно-километр.
+            
         Возвращает:
             None
         """
@@ -183,8 +217,10 @@ class Truck(Transport):
     def load_capacity(self):
         """
         Свойство для чтения грузоподъёмности.
+        
         Параметры:
             Нет.
+            
         Возвращает:
             int | float: грузоподъёмность в тоннах.
         """
@@ -193,11 +229,14 @@ class Truck(Transport):
     def calculate_transport_cost(self, distance_km, weight_tons):
         """
         Рассчитывает стоимость перевозки груза.
+        
         Параметры:
             distance_km (int | float): расстояние в км.
             weight_tons (int | float): вес груза в тоннах.
+            
         Возвращает:
             float: стоимость перевозки.
+            
         Исключения:
             ValueError: если вес груза превышает грузоподъёмность.
         """
@@ -208,8 +247,10 @@ class Truck(Transport):
     def get_info(self):
         """
         Возвращает расширенную информацию о грузовике.
+        
         Параметры:
             Нет.
+            
         Возвращает:
             str: строка с характеристиками и грузоподъёмностью.
         """
@@ -219,16 +260,19 @@ class Truck(Transport):
 class Taxi(Transport):
     """
     Класс такси, наследующий Transport.
+    
     Добавляет тариф и расчёт стоимости поездки.
     """
 
     def __init__(self, speed, capacity, tariff_per_km):
         """
         Конструктор класса Taxi.
+        
         Параметры:
             speed (int | float): скорость.
             capacity (int): ёмкость.
             tariff_per_km (int | float): тариф за км.
+            
         Возвращает:
             None
         """
@@ -239,8 +283,10 @@ class Taxi(Transport):
     def tariff_per_km(self):
         """
         Свойство для чтения тарифа за км.
+        
         Параметры:
             Нет.
+            
         Возвращает:
             int | float: тариф за километр.
         """
@@ -249,8 +295,10 @@ class Taxi(Transport):
     def calculate_ride_cost(self, distance_km):
         """
         Рассчитывает стоимость поездки.
+        
         Параметры:
             distance_km (int | float): расстояние в км.
+            
         Возвращает:
             float: стоимость поездки.
         """
@@ -259,8 +307,10 @@ class Taxi(Transport):
     def get_info(self):
         """
         Возвращает расширенную информацию о такси.
+        
         Параметры:
             Нет.
+            
         Возвращает:
             str: строка с характеристиками и тарифом.
         """
