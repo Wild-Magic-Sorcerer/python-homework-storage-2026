@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+TRUCK_TARIFF_RATE = 17
+
 
 class Transport:
     """
@@ -9,10 +11,13 @@ class Transport:
         """
         Конструктор класса
 
-        :param speed: int
+        :param speed: int  
         :param capacity: int 
         """
-        self.speed = speed             #приватные атрибуты, извне к ним не получится обратиться ( исползуются сеттеры так что проверка сразу бует происходить)
+        self.__speed = 0            #приватные атрибуты, извне к ним не получится обратиться ( исползуются сеттеры так что проверка сразу бует происходить)
+        self.__capacity = 0
+        
+        self.speed = speed
         self.capacity = capacity
 
     @property
@@ -23,6 +28,7 @@ class Transport:
         if value < 0:
            raise ValueError('В нашей вселенной отрицательной скорости е бывает!')
         self.__speed = value
+        
     @property
     def capacity(self):
         return self.__capacity
@@ -32,7 +38,7 @@ class Transport:
             raise ValueError('С призраками что ли едешь?')
         self.__capacity = value
 
-    def info(self):
+    def __str__(self):
         """
         Возвращает строку с основными характеристиками
         """
@@ -54,7 +60,7 @@ class Transport:
         :param data: словарь с данными для нового объекта
         :return: cls object
         """
-        obj_bus = cls(data['speed'], data['capacity'])
+        obj_bus = cls(data.get('speed'), data.get('capacity'))
         return obj_bus
 
 
@@ -67,7 +73,9 @@ class Bus(Transport):
         Базовый конструктор
         """
         super().__init__(speed, capacity)
-        self._marshr = marshr
+        self._marshr = []
+        self.marshrut = if marshr is not None else []
+        
     
     def make_marshrut(self, *items):
         """
@@ -86,7 +94,7 @@ class Bus(Transport):
         """
         Устанавка нового маршрута
         """
-        if isinstance(value, list):
+        if type(value) is list:
             self._marshr = value
         else:
             raise TypeError("Маршрут должен быть списком")
@@ -101,13 +109,14 @@ class Truck(Transport):
     
     def __init__(self, speed, capacity, load_capacity):
         super().__init__(speed, capacity)
+        self._load_capacity = 0
         self._load_capacity = load_capacity
 
     def calculate_cost(self, distance):
         """
         Расчет стоимости перевозки: расстояние * грузоподъемность * тариф
         """
-        return distance * self._load_capacity * 17
+        return distance * self._load_capacity * TRUCK_TARIFF_RATE
 
     def transport_type(self):
         return "Грузовик"
@@ -119,7 +128,8 @@ class Taxi(Transport):
     
     def __init__(self, speed, capacity, tarif):
         super().__init__(speed, capacity)
-        self._tarif = tarif
+        self._tarif = 0
+        self.tarif = tarif
 
     @property
     def tarif(self):
@@ -147,7 +157,7 @@ class Taxi(Transport):
         :param data: Словарь с характеристиками такси
         :return: Новый объект такси
         """
-        return cls(data['speed'], data['capacity'], data['tarif'])
+        return cls(data.get('speed'), data.get('capacity'), data.get('tarif'))
 
     def transport_type(self):
         return "Такси"
@@ -162,7 +172,7 @@ if __name__ == "__main__":
     # 2. Создание через классовый метод (из словаря)
     data = {"speed": 100, "capacity": 1, "tarif": 25}
     new_taxi = Taxi.from_dict(data)
-    print(new_taxi.info()) 
+    print(new_taxi) 
 
     # 3. Попытка задать недопустимую скорость (ошибка!)
     try:
@@ -177,4 +187,4 @@ if __name__ == "__main__":
     vehicles = [bus, truck, taxi]
     for v in vehicles:
         print(f'\nТип транспорта: {v.transport_type()}')
-        print(v.info())
+        print(v)
