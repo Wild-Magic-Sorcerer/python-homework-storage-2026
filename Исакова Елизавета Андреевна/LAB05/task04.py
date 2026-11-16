@@ -1,5 +1,4 @@
 import argparse
-import os
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Утилита для копирования и обработки файлов')
@@ -11,14 +10,16 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    if not os.path.exists(args.input):
-        parser.error(f'Входной файл "{args.input}" не найден!')
-    if os.path.exists(args.output) and not args.rewrite:
-        parser.error(f'Файл "{args.output}" уже существует!')
+    try:
+        with open(args.output, 'r'): pass
+        if not args.rewrite:
+            parser.error(f'Файл "{args.output}" уже существует!')
+    except FileNotFoundError:
+        pass
 
     with open(args.input, 'r', encoding='utf-8') as f:
         content = f.read()
-        
+
     count_replace = 0
     if args.replace:
         old, new = args.replace.split('=', 1)
@@ -33,3 +34,4 @@ if __name__ == '__main__':
 
     print(f'Выполнено замен: {count_replace}')
     print(f'Результат сохранён в "{args.output}"')
+    
