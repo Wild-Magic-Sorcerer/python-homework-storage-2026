@@ -4,12 +4,15 @@ class BankAccount:
     """
     Банковский счёт с приватными полями и историей операций.
     """
+    
     def __init__(self, owner, balance=0):
         """
         Конструктор.
+        
         Параметры:
             owner (str): владелец счёта.
             balance (int | float): начальный баланс (по умолчанию 0).
+            
         Возвращает:
             None
         """
@@ -25,8 +28,10 @@ class BankAccount:
     def owner(self):
         """
         Свойство только для чтения: владелец.
+        
         Параметры:
             Нет.
+            
         Возвращает:
             str: имя владельца.
         """
@@ -36,8 +41,10 @@ class BankAccount:
     def balance(self):
         """
         Свойство только для чтения: баланс.
+        
         Параметры:
             Нет.
+            
         Возвращает:
             int | float: текущий баланс.
         """
@@ -46,10 +53,13 @@ class BankAccount:
     def deposit(self, amount):
         """
         Пополнение счёта.
+        
         Параметры:
             amount (int | float): сумма пополнения (> 0).
+            
         Возвращает:
             None
+            
         Исключения:
             ValueError: если сумма не положительная.
         """
@@ -61,10 +71,13 @@ class BankAccount:
     def withdraw(self, amount):
         """
         Снятие денег со счёта.
+        
         Параметры:
             amount (int | float): сумма снятия (> 0).
+            
         Возвращает:
             None
+            
         Исключения:
             ValueError: если сумма не положительная или превышает баланс.
         """
@@ -78,8 +91,10 @@ class BankAccount:
     def get_history(self):
         """
         Возвращает КОПИЮ истории операций.
+        
         Параметры:
             Нет.
+            
         Возвращает:
             list[str]: копия списка операций.
         """
@@ -89,9 +104,11 @@ class BankAccount:
     def create(cls, owner, initial_balance=0):
         """
         Публичный классовый метод для создания счёта.
+        
         Параметры:
             owner (str): владелец.
             initial_balance (int | float): начальный баланс.
+            
         Возвращает:
             BankAccount: новый объект.
         """
@@ -105,10 +122,12 @@ class SavingsAccount(BankAccount):
     def __init__(self, owner, balance=0, interest_rate=5):
         """
         Конструктор.
+        
         Параметры:
             owner (str): владелец.
             balance (int | float): начальный баланс.
             interest_rate (int | float): годовая ставка в процентах.
+            
         Возвращает:
             None
         """
@@ -121,8 +140,10 @@ class SavingsAccount(BankAccount):
     def interest_rate(self):
         """
         Свойство только для чтения: процентная ставка.
+        
         Параметры:
             Нет.
+            
         Возвращает:
             int | float: ставка в процентах.
         """
@@ -131,8 +152,10 @@ class SavingsAccount(BankAccount):
     def apply_interest(self):
         """
         Начисляет проценты на текущий баланс и записывает это в историю.
+        
         Параметры:
             Нет.
+            
         Возвращает:
             None
         """
@@ -142,10 +165,13 @@ class SavingsAccount(BankAccount):
     def withdraw(self, amount):
         """
         Переопределённое снятие: не более 50% баланса за операцию.
+        
         Параметры:
             amount (int | float): сумма снятия.
+            
         Возвращает:
             None
+            
         Исключения:
             ValueError: если сумма не положительная, превышает баланс
             или превышает 50% от баланса.
