@@ -10,19 +10,23 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if args.arithmetic is not None:
-        result = None
-        if args.arithmetic == 'add':
-            result = args.x + args.y
-        elif args.arithmetic == 'sub':
-            result = args.x - args.y
-        elif args.arithmetic == 'mul':
-            result = args.x * args.y
-        elif args.arithmetic == 'div':
-            if args.y == 0:
-                parser.error('Деление на ноль невозможно!')
-            result = args.x / args.y
+        match args.arithmetic:
+            case 'add':
+                result = args.x + args.y
+            case 'sub':
+                result = args.x - args.y
+            case 'mul':
+                result = args.x * args.y
+            case 'div':
+                if args.y == 0:
+                    parser.error('Деление на ноль невозможно!')
+                result = args.x / args.y
+            case _:
+                parser.error('Неизвестная операция')
+
         accuracy = args.accuracy
         print('Результат: {:.{}f}'.format(result, accuracy))
 
     else:
         print(f'Число x={args.x}, число y={args.y}')
+        
