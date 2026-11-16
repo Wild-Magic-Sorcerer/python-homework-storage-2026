@@ -7,15 +7,19 @@ class Person:
     """
     Класс человека: имя, пол, возраст с валидацией.
     """
+    
     def __init__(self, name, gender, age):
         """
         Конструктор.
+        
         Параметры:
             name (str): имя.
             gender (str): 'м' или 'ж'.
             age (int): возраст (0..120).
+            
         Возвращает:
             None
+            
         Исключения:
             ValueError: при некорректных значениях.
         """
@@ -33,8 +37,10 @@ class Person:
     def name(self):
         """
         Свойство только для чтения: имя.
+        
         Параметры:
             Нет.
+            
         Возвращает:
             str: имя.
         """
@@ -44,8 +50,10 @@ class Person:
     def gender(self):
         """
         Свойство только для чтения: пол.
+        
         Параметры:
             Нет.
+            
         Возвращает:
             str: 'м' или 'ж'.
         """
@@ -55,8 +63,10 @@ class Person:
     def age(self):
         """
         Свойство только для чтения: возраст.
+        
         Параметры:
             Нет.
+            
         Возвращает:
             int: возраст.
         """
@@ -65,8 +75,10 @@ class Person:
     def introduce(self):
         """
         Красивое представление человека.
+        
         Параметры:
             Нет.
+            
         Возвращает:
             str: строка с информацией о человеке.
         """
@@ -75,8 +87,10 @@ class Person:
     def is_adult(self):
         """
         Проверяет совершеннолетие.
+        
         Параметры:
             Нет.
+            
         Возвращает:
             bool: True если age >= 18.
         """
@@ -86,10 +100,12 @@ class Person:
     def from_variables(cls, name, gender, age):
         """
         Классовый метод создания Person из переменных.
+        
         Параметры:
             name (str): имя.
             gender (str): пол.
             age (int): возраст.
+            
         Возвращает:
             Person: новый объект.
         """
@@ -98,18 +114,22 @@ class Person:
 class Employee(Person, ABC):
     """
     Сотрудник: расширяет Person должностью, зарплатой и расходами.
+    
     Абстрактный класс (нельзя создать напрямую).
     """
     def __init__(self, name, gender, age, position, salary, monthly_expenses):
         """
         Конструктор.
+        
         Параметры:
             name (str), gender (str), age (int): как у Person.
             position (str): должность.
             salary (int | float): зарплата в месяц.
             monthly_expenses (int | float): средние расходы в месяц.
+            
         Возвращает:
             None
+            
         Исключения:
             ValueError: при некорректных значениях.
         """
@@ -130,8 +150,10 @@ class Employee(Person, ABC):
     def position(self):
         """
         Свойство только для чтения: должность.
+        
         Параметры:
             Нет.
+            
         Возвращает:
             str: должность.
         """
@@ -141,8 +163,10 @@ class Employee(Person, ABC):
     def salary(self):
         """
         Свойство только для чтения: зарплата.
+        
         Параметры:
             Нет.
+            
         Возвращает:
             int | float: зарплата.
         """
@@ -152,8 +176,10 @@ class Employee(Person, ABC):
     def monthly_expenses(self):
         """
         Свойство только для чтения: расходы.
+        
         Параметры:
             Нет.
+            
         Возвращает:
             int | float: расходы.
         """
@@ -162,8 +188,10 @@ class Employee(Person, ABC):
     def introduce(self):
         """
         Красивое представление сотрудника (использует super()).
+        
         Параметры:
             Нет.
+            
         Возвращает:
             str: строка с информацией.
         """
@@ -174,8 +202,10 @@ class Employee(Person, ABC):
     def work(self):
         """
         Абстрактный метод работы. Должен быть реализован в наследниках.
+        
         Параметры:
             Нет.
+            
         Возвращает:
             str: описание работы.
         """
@@ -184,8 +214,10 @@ class Employee(Person, ABC):
     def income_after_months(self, months):
         """
         Приток денег за N месяцев (доходы минус расходы).
+        
         Параметры:
             months (int): количество месяцев.
+            
         Возвращает:
             int | float: накопленная сумма.
         """
@@ -194,8 +226,10 @@ class Employee(Person, ABC):
     def money_until_pension(self, pension_age=65):
         """
         Сколько накопится до пенсии.
+        
         Параметры:
             pension_age (int): пенсионный возраст (по умолчанию 65).
+            
         Возвращает:
             int | float: накопленная сумма.
         """
@@ -211,9 +245,11 @@ class Manager(Employee):
     def __init__(self, name, gender, age, position, salary, monthly_expenses, subordinates=None):
         """
         Конструктор.
+        
         Параметры:
             ... (как у Employee)
             subordinates (list[str]): список имён подчинённых.
+            
         Возвращает:
             None
         """
@@ -224,8 +260,10 @@ class Manager(Employee):
     def subordinates(self):
         """
         Свойство только для чтения: список подчинённых (копия).
+        
         Параметры:
             Нет.
+            
         Возвращает:
             list[str]: копия списка.
         """
@@ -234,8 +272,10 @@ class Manager(Employee):
     def add_subordinate(self, name):
         """
         Добавляет подчинённого.
+        
         Параметры:
             name (str): имя подчинённого.
+            
         Возвращает:
             None
         """
@@ -244,8 +284,10 @@ class Manager(Employee):
     def remove_subordinate(self, name):
         """
         Удаляет подчинённого, если он есть.
+        
         Параметры:
             name (str): имя подчинённого.
+            
         Возвращает:
             None
         """
@@ -255,8 +297,10 @@ class Manager(Employee):
     def introduce(self):
         """
         Красивое представление менеджера (super()).
+        
         Параметры:
             Нет.
+            
         Возвращает:
             str: строка с информацией.
         """
@@ -265,8 +309,10 @@ class Manager(Employee):
     def work(self):
         """
         Работа менеджера.
+        
         Параметры:
             Нет.
+            
         Возвращает:
             str: описание.
         """
@@ -275,8 +321,10 @@ class Manager(Employee):
     def conduct_meeting(self):
         """
         Проводит митинг для подчинённых.
+        
         Параметры:
             Нет.
+            
         Возвращает:
             str: описание митинга.
         """
@@ -290,9 +338,11 @@ class Developer(Employee):
     def __init__(self, name, gender, age, position, salary, monthly_expenses, languages=None):
         """
         Конструктор.
+        
         Параметры:
             ... (как у Employee)
             languages (list[str]): языки программирования.
+            
         Возвращает:
             None
         """
@@ -303,8 +353,10 @@ class Developer(Employee):
     def languages(self):
         """
         Свойство только для чтения: языки (копия).
+        
         Параметры:
             Нет.
+            
         Возвращает:
             list[str]: копия списка языков.
         """
@@ -313,8 +365,10 @@ class Developer(Employee):
     def introduce(self):
         """
         Красивое представление разработчика.
+        
         Параметры:
             Нет.
+            
         Возвращает:
             str: строка с информацией.
         """
@@ -323,8 +377,10 @@ class Developer(Employee):
     def work(self):
         """
         Работа разработчика.
+        
         Параметры:
             Нет.
+            
         Возвращает:
             str: описание.
         """
@@ -333,10 +389,13 @@ class Developer(Employee):
     def write_code(self):
         """
         Пишет код на случайном языке.
+        
         Параметры:
             Нет.
+            
         Возвращает:
             str: описание действия.
+            
         Исключения:
             ValueError: если список языков пуст.
         """
@@ -352,9 +411,11 @@ class Designer(Employee):
     def __init__(self, name, gender, age, position, salary, monthly_expenses, tools=None):
         """
         Конструктор.
+        
         Параметры:
             ... (как у Employee)
             tools (list[str]): инструменты.
+            
         Возвращает:
             None
         """
@@ -365,8 +426,10 @@ class Designer(Employee):
     def tools(self):
         """
         Свойство только для чтения: инструменты (копия).
+        
         Параметры:
             Нет.
+            
         Возвращает:
             list[str]: копия списка инструментов.
         """
