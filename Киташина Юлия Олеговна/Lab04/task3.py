@@ -16,10 +16,12 @@ def check_text(value: str, name: str) -> str:
     :param name: Название поля для сообщения об ошибке
     :return: Строка без пробелов по краям
     """
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(name + ": ожидается непустая строка, получено "
-                         + repr(value))
-    return value.strip()
+    if not isinstance(value, str):
+        raise ValueError(name + ": ожидается строка")
+    text = value.strip()
+    if not text:
+        raise ValueError(name + ": строка пуста")
+    return text
 
 
 def check_int(value: int, name: str, minimum: int, maximum: int) -> int:
@@ -32,7 +34,7 @@ def check_int(value: int, name: str, minimum: int, maximum: int) -> int:
     :param maximum: Наибольшее допустимое значение
     :return: То же значение, если оно прошло проверку
     """
-    if not isinstance(value, int) or isinstance(value, bool):
+    if type(value) is not int:
         raise ValueError(name + ": ожидается целое число, получено "
                          + repr(value))
     if value < minimum or value > maximum:
@@ -69,12 +71,9 @@ class Person:
         :param gender: Пол, одно из значений GENDERS
         :param age: Возраст от 0 до MAX_AGE
         """
-        self.__name = check_text(name, "Имя")
-        if gender not in GENDERS:
-            raise ValueError("Пол: ожидается одно из " + ", ".join(GENDERS)
-                             + ", получено " + repr(gender))
-        self.__gender = gender
-        self.__age = check_int(age, "Возраст", 0, MAX_AGE)
+        self.name = name
+        self.gender = gender
+        self.age = age
 
     @property
     def name(self) -> str:
@@ -83,7 +82,17 @@ class Person:
 
         :return: Имя
         """
-        return self.__name
+        return self._name
+
+    @name.setter
+    def name(self, value: str) -> None:
+        """
+        Обновляет имя после проверки.
+
+        :param value: Новое значение
+        :return: Ничего не возвращает (None)
+        """
+        self._name = check_text(value, "Имя")
 
     @property
     def gender(self) -> str:
@@ -92,7 +101,19 @@ class Person:
 
         :return: Пол
         """
-        return self.__gender
+        return self._gender
+
+    @gender.setter
+    def gender(self, value: str) -> None:
+        """
+        Обновляет пол после проверки.
+
+        :param value: Новое значение
+        :return: Ничего не возвращает (None)
+        """
+        if value not in GENDERS:
+            raise ValueError("Пол: ожидается одно из " + ", ".join(GENDERS))
+        self._gender = value
 
     @property
     def age(self) -> int:
@@ -101,7 +122,17 @@ class Person:
 
         :return: Возраст
         """
-        return self.__age
+        return self._age
+
+    @age.setter
+    def age(self, value: int) -> None:
+        """
+        Обновляет возраст после проверки.
+
+        :param value: Новое значение
+        :return: Ничего не возвращает (None)
+        """
+        self._age = check_int(value, "Возраст", 0, MAX_AGE)
 
     def introduce(self) -> str:
         """
@@ -109,8 +140,8 @@ class Person:
 
         :return: Имя, пол и возраст с правильной формой слова «год»
         """
-        return (self.__name + ", " + self.__gender + " пол, "
-                + str(self.__age) + " " + years_word(self.__age))
+        age = f"{self._age} {years_word(self._age)}"
+        return f"{self._name}, {self._gender} пол, {age}"
 
     def is_adult(self) -> bool:
         """
@@ -118,7 +149,7 @@ class Person:
 
         :return: True, если возраст не меньше ADULT_AGE
         """
-        return self.__age >= ADULT_AGE
+        return self._age >= ADULT_AGE
 
     @classmethod
     def from_values(cls, name: str, gender: str, age: int) -> "Person":
@@ -151,9 +182,10 @@ class Employee(Person, ABC):
         :param expenses: Средние расходы в месяц, целое число не меньше нуля
         """
         super().__init__(name, gender, age)
-        self.__position = check_text(position, "Должность")
-        self.__salary = check_int(salary, "Зарплата", 1, 10 ** 9)
-        self.__expenses = check_int(expenses, "Расходы", 0, 10 ** 9)
+        self.position = position
+        self.salary = salary
+        self.expenses = expenses
+        self.__alive = True
 
     @property
     def position(self) -> str:
@@ -164,6 +196,16 @@ class Employee(Person, ABC):
         """
         return self.__position
 
+    @position.setter
+    def position(self, value: str) -> None:
+        """
+        Обновляет должность после проверки.
+
+        :param value: Новое значение
+        :return: Ничего не возвращает (None)
+        """
+        self.__position = check_text(value, "Должность")
+
     @property
     def salary(self) -> int:
         """
@@ -172,6 +214,16 @@ class Employee(Person, ABC):
         :return: Зарплата
         """
         return self.__salary
+
+    @salary.setter
+    def salary(self, value: int) -> None:
+        """
+        Обновляет зарплату после проверки.
+
+        :param value: Новое значение
+        :return: Ничего не возвращает (None)
+        """
+        self.__salary = check_int(value, "Зарплата", 1, 10 ** 9)
 
     @property
     def expenses(self) -> int:
@@ -182,15 +234,33 @@ class Employee(Person, ABC):
         """
         return self.__expenses
 
+    @expenses.setter
+    def expenses(self, value: int) -> None:
+        """
+        Обновляет расходы после проверки.
+
+        :param value: Новое значение
+        :return: Ничего не возвращает (None)
+        """
+        self.__expenses = check_int(value, "Расходы", 0, 10 ** 9)
+
     def introduce(self) -> str:
         """
         Добавляет к представлению человека рабочие сведения.
 
         :return: Строка родителя, должность, зарплата и расходы
         """
-        return (super().introduce() + ", должность " + self.__position
-                + ", зарплата " + str(self.__salary) + ", расходы "
-                + str(self.__expenses))
+        job = f"должность {self.__position}, зарплата {self.__salary}"
+        return f"{super().introduce()}, {job}, расходы {self.__expenses}"
+
+    def _check_alive(self) -> None:
+        """
+        Проверяет, может ли сотрудник продолжать работу.
+
+        :return: Ничего не возвращает (None)
+        """
+        if not self.__alive:
+            raise RuntimeError(f"{self._name}: дальнейшая работа невозможна")
 
     @abstractmethod
     def work(self) -> str:
@@ -199,6 +269,8 @@ class Employee(Person, ABC):
 
         :return: Строка с описанием работы
         """
+        self._check_alive()
+        return f"{self._name} работает в должности {self.__position}"
 
     def money_flow(self, months: int) -> int:
         """
@@ -208,8 +280,10 @@ class Employee(Person, ABC):
         :return: Разница зарплаты и расходов, умноженная на число месяцев
         """
         check_int(months, "Число месяцев", 1, 1200)
+        self._check_alive()
         if self.__expenses > self.__salary:
-            raise RuntimeError(self.name + " умер: тратит "
+            self.__alive = False
+            raise RuntimeError(self._name + " умер: тратит "
                                + str(self.__expenses)
                                + " в месяц при зарплате "
                                + str(self.__salary))
@@ -221,7 +295,8 @@ class Employee(Person, ABC):
 
         :return: Накопления за оставшиеся месяцы, 0 после пенсии
         """
-        months = (RETIREMENT_AGE[self.gender] - self.age) * 12
+        self._check_alive()
+        months = (RETIREMENT_AGE.get(self._gender) - self._age) * 12
         if months <= 0:
             return 0
         return self.money_flow(months)
@@ -266,11 +341,26 @@ class Manager(Employee):
     @property
     def subordinates(self) -> list[str]:
         """
-        Копия списка имён подчинённых.
+        Подчинённые менеджера.
 
-        :return: Новый список имён
+        :return: Список имён подчинённых
         """
-        return list(self.__subordinates)
+        return self.__subordinates
+
+    @subordinates.setter
+    def subordinates(self, value: list[str]) -> None:
+        """
+        Обновляет список подчинённых после проверки.
+
+        :param value: Новое значение
+        :return: Ничего не возвращает (None)
+        """
+        if not isinstance(value, list):
+            raise ValueError("Подчинённых нужно передать списком")
+        names = [check_text(name, "Имя подчинённого") for name in value]
+        if len(names) != len(set(names)):
+            raise ValueError("Имя подчинённого повторяется")
+        self.__subordinates = names
 
     def add_subordinate(self, name: str) -> None:
         """
@@ -279,6 +369,7 @@ class Manager(Employee):
         :param name: Имя, которого ещё нет в списке
         :return: Ничего не возвращает (None)
         """
+        self._check_alive()
         name = check_text(name, "Имя подчинённого")
         if name in self.__subordinates:
             raise ValueError(name + " уже в списке подчинённых")
@@ -291,6 +382,7 @@ class Manager(Employee):
         :param name: Имя из списка подчинённых
         :return: Ничего не возвращает (None)
         """
+        self._check_alive()
         if name not in self.__subordinates:
             raise ValueError(name + " не числится подчинённым")
         self.__subordinates.remove(name)
@@ -301,10 +393,11 @@ class Manager(Employee):
 
         :return: Строка с именами участников или сообщение, что их нет
         """
+        self._check_alive()
         if not self.__subordinates:
-            return self.name + " хотел провести митинг, но подчинённых нет"
-        return (self.name + " проводит митинг для: "
-                + ", ".join(self.__subordinates))
+            return self._name + " хотел провести митинг, но подчинённых нет"
+        names = ", ".join(self.__subordinates)
+        return f"{self._name} проводит митинг для: {names}"
 
     def introduce(self) -> str:
         """
@@ -312,8 +405,7 @@ class Manager(Employee):
 
         :return: Строка родителя и число подчинённых
         """
-        return (super().introduce() + ", подчинённых "
-                + str(len(self.__subordinates)))
+        return f"{super().introduce()}, подчинённых {len(self.__subordinates)}"
 
     def work(self) -> str:
         """
@@ -321,10 +413,11 @@ class Manager(Employee):
 
         :return: Строка с командой менеджера
         """
+        self._check_alive()
         if not self.__subordinates:
-            return self.name + " руководит, но команда пока пуста"
-        return (self.name + " руководит командой: "
-                + ", ".join(self.__subordinates))
+            return self._name + " руководит, но команда пока пуста"
+        names = ", ".join(self.__subordinates)
+        return f"{self._name} руководит командой: {names}"
 
 
 class Developer(Employee):
@@ -346,10 +439,7 @@ class Developer(Employee):
         :param languages: Непустой список названий языков
         """
         super().__init__(name, gender, age, position, salary, expenses)
-        if not languages:
-            raise ValueError("Список языков не должен быть пустым")
-        self.__languages = [check_text(language, "Язык")
-                            for language in languages]
+        self.languages = languages
 
     @property
     def languages(self) -> list[str]:
@@ -358,7 +448,19 @@ class Developer(Employee):
 
         :return: Новый список названий языков
         """
-        return list(self.__languages)
+        return self.__languages.copy()
+
+    @languages.setter
+    def languages(self, value: list[str]) -> None:
+        """
+        Обновляет список языков после проверки.
+
+        :param value: Новое значение
+        :return: Ничего не возвращает (None)
+        """
+        if not isinstance(value, list) or not value:
+            raise ValueError("Ожидается непустой список языков")
+        self.__languages = [check_text(item, "Язык") for item in value]
 
     def introduce(self) -> str:
         """
@@ -366,8 +468,7 @@ class Developer(Employee):
 
         :return: Строка родителя и языки через запятую
         """
-        return (super().introduce() + ", языки "
-                + ", ".join(self.__languages))
+        return super().introduce() + ", языки " + ", ".join(self.__languages)
 
     def work(self) -> str:
         """
@@ -375,7 +476,8 @@ class Developer(Employee):
 
         :return: Строка с выбранным языком
         """
-        return self.name + " пишет код на " + random.choice(self.__languages)
+        self._check_alive()
+        return self._name + " пишет код на " + random.choice(self.__languages)
 
     @classmethod
     def from_values(cls, name: str, gender: str, age: int, position: str,
@@ -415,9 +517,7 @@ class Designer(Employee):
         :param tools: Непустой список названий инструментов
         """
         super().__init__(name, gender, age, position, salary, expenses)
-        if not tools:
-            raise ValueError("Список инструментов не должен быть пустым")
-        self.__tools = [check_text(tool, "Инструмент") for tool in tools]
+        self.tools = tools
         self.__layouts = []
 
     @property
@@ -427,7 +527,19 @@ class Designer(Employee):
 
         :return: Новый список названий инструментов
         """
-        return list(self.__tools)
+        return self.__tools.copy()
+
+    @tools.setter
+    def tools(self, value: list[str]) -> None:
+        """
+        Обновляет список инструментов после проверки.
+
+        :param value: Новое значение
+        :return: Ничего не возвращает (None)
+        """
+        if not isinstance(value, list) or not value:
+            raise ValueError("Ожидается непустой список инструментов")
+        self.__tools = [check_text(item, "Инструмент") for item in value]
 
     @property
     def layouts(self) -> list[str]:
@@ -436,7 +548,7 @@ class Designer(Employee):
 
         :return: Новый список названий
         """
-        return list(self.__layouts)
+        return self.__layouts.copy()
 
     def make_layout(self, title: str) -> str:
         """
@@ -445,10 +557,10 @@ class Designer(Employee):
         :param title: Название макета, непустая строка
         :return: Строка о созданном макете и инструменте
         """
+        self._check_alive()
         title = check_text(title, "Название макета")
         self.__layouts.append(title)
-        return (self.name + " создаёт макет «" + title + "» в "
-                + self.__tools[0])
+        return f"{self._name} создаёт макет «{title}» в {self.__tools[0]}"
 
     def introduce(self) -> str:
         """
@@ -456,8 +568,7 @@ class Designer(Employee):
 
         :return: Строка родителя и инструменты через запятую
         """
-        return (super().introduce() + ", инструменты "
-                + ", ".join(self.__tools))
+        return super().introduce() + ", инструменты " + ", ".join(self.__tools)
 
     def work(self) -> str:
         """
@@ -465,8 +576,8 @@ class Designer(Employee):
 
         :return: Строка с числом готовых макетов
         """
-        return (self.name + " рисует макеты, готово "
-                + str(len(self.__layouts)))
+        self._check_alive()
+        return f"{self._name} рисует макеты, готово {len(self.__layouts)}"
 
     @classmethod
     def from_values(cls, name: str, gender: str, age: int, position: str,
@@ -487,12 +598,7 @@ class Designer(Employee):
         return cls(name, gender, age, position, salary, expenses, tools)
 
 
-def main() -> None:
-    """
-    Создаёт сотрудников разных типов и показывает работу классов.
-
-    :return: Ничего не возвращает (None)
-    """
+if __name__ == "__main__":
     manager = Manager("Иван Петров", "мужской", 45, "руководитель отдела",
                       150000, 90000)
     manager.add_subordinate("Анна Смирнова")
@@ -502,7 +608,7 @@ def main() -> None:
     designer = Designer.from_values("Олег Кузнецов", "мужской", 33,
                                     "дизайнер", 100000, 60000,
                                     ["Figma", "Photoshop"])
-    employees = [manager, developer, designer]
+    employees = (manager, developer, designer)
     print("Цепочка наследования Manager:",
           " -> ".join(cls.__name__ for cls in Manager.__mro__))
     print()
@@ -553,6 +659,12 @@ def main() -> None:
     except RuntimeError as error:
         print("  RuntimeError:", error)
     print()
+    spender.salary = 90000
+    try:
+        spender.work()
+    except RuntimeError as error:
+        print("  После изменения зарплаты:", error)
+    print()
     print("Накопления до пенсии:")
     for employee in employees:
         print(" ", employee.name, employee.savings_until_retirement())
@@ -564,6 +676,3 @@ def main() -> None:
     print(designer.make_layout("Главная страница"))
     print(designer.make_layout("Корзина"))
     print(designer.work())
-
-
-main()
