@@ -15,8 +15,8 @@ class Transport:
         :param speed: Максимальная скорость, км/ч
         :param capacity: Вместимость, число мест
         """
-        self.__speed = self.check_positive(speed, "Скорость")
-        self.__capacity = self.check_positive(capacity, "Вместимость")
+        self.speed = speed
+        self.capacity = capacity
 
     @staticmethod
     def check_positive(value: int, name: str) -> int:
@@ -27,7 +27,7 @@ class Transport:
         :param name: Название величины для сообщения об ошибке
         :return: То же значение, если оно прошло проверку
         """
-        if not isinstance(value, int) or isinstance(value, bool) or value <= 0:
+        if type(value) is not int or value <= 0:
             raise ValueError(name + ": ожидается целое число больше нуля, "
                              + "получено " + repr(value))
         return value
@@ -41,6 +41,16 @@ class Transport:
         """
         return self.__speed
 
+    @speed.setter
+    def speed(self, value: int) -> None:
+        """
+        Обновляет скорость после проверки.
+
+        :param value: Новое значение
+        :return: Ничего не возвращает (None)
+        """
+        self.__speed = self.check_positive(value, "Скорость")
+
     @property
     def capacity(self) -> int:
         """
@@ -50,14 +60,24 @@ class Transport:
         """
         return self.__capacity
 
-    def describe(self) -> str:
+    @capacity.setter
+    def capacity(self, value: int) -> None:
+        """
+        Обновляет вместимость после проверки.
+
+        :param value: Новое значение
+        :return: Ничего не возвращает (None)
+        """
+        self.__capacity = self.check_positive(value, "Вместимость")
+
+    def __str__(self) -> str:
         """
         Собирает строку с основными характеристиками.
 
         :return: Строка с названием класса, скоростью и вместимостью
         """
-        return (type(self).__name__ + ": скорость " + str(self.__speed)
-                + " км/ч, мест " + str(self.__capacity))
+        speed = f"скорость {self.__speed} км/ч"
+        return f"{type(self).__name__}: {speed}, мест {self.__capacity}"
 
     def is_speeding(self, limit: int) -> bool:
         """
@@ -76,7 +96,7 @@ class Transport:
         :param data: Словарь с характеристиками
         :return: Новый объект того класса, от которого вызван метод
         """
-        return cls(data["speed"], data["capacity"])
+        return cls(data.get("speed"), data.get("capacity"))
 
 
 class Bus(Transport):
@@ -101,20 +121,33 @@ class Bus(Transport):
         :param stops: Непустой список названий остановок
         :return: Ничего не возвращает (None)
         """
-        if not stops:
-            raise ValueError("Маршрут должен содержать хотя бы одну остановку")
-        self.__route = list(stops)
+        self.route = stops
 
     @property
     def route(self) -> list[str]:
         """
-        Копия списка остановок маршрута.
+        Остановки маршрута.
 
-        :return: Новый список остановок
+        :return: Список остановок автобуса
         """
-        return list(self.__route)
+        return self.__route
 
-    def describe(self) -> str:
+    @route.setter
+    def route(self, value: list[str]) -> None:
+        """
+        Обновляет маршрут после проверки.
+
+        :param value: Новое значение
+        :return: Ничего не возвращает (None)
+        """
+        if not isinstance(value, list) or not value:
+            raise ValueError("Маршрут должен содержать хотя бы одну остановку")
+        for stop in value:
+            if not isinstance(stop, str) or not stop.strip():
+                raise ValueError("Остановка должна иметь непустое название")
+        self.__route = [stop.strip() for stop in value]
+
+    def __str__(self) -> str:
         """
         Добавляет к характеристикам маршрут.
 
@@ -124,7 +157,7 @@ class Bus(Transport):
             route = " - ".join(self.__route)
         else:
             route = "не задан"
-        return super().describe() + ", маршрут " + route
+        return super().__str__() + ", маршрут " + route
 
     @classmethod
     def from_dict(cls, data: dict) -> "Bus":
@@ -134,9 +167,9 @@ class Bus(Transport):
         :param data: Словарь с ключами speed, capacity и route
         :return: Новый автобус
         """
-        bus = cls(data["speed"], data["capacity"])
+        bus = cls(data.get("speed"), data.get("capacity"))
         if "route" in data:
-            bus.make_route(data["route"])
+            bus.make_route(data.get("route"))
         return bus
 
 
@@ -154,8 +187,7 @@ class Truck(Transport):
         :param load_capacity: Грузоподъёмность, тонн
         """
         super().__init__(speed, capacity)
-        self.__load_capacity = self.check_positive(load_capacity,
-                                                   "Грузоподъёмность")
+        self.load_capacity = load_capacity
 
     @property
     def load_capacity(self) -> int:
@@ -165,6 +197,16 @@ class Truck(Transport):
         :return: Грузоподъёмность
         """
         return self.__load_capacity
+
+    @load_capacity.setter
+    def load_capacity(self, value: int) -> None:
+        """
+        Обновляет грузоподъёмность после проверки.
+
+        :param value: Новое значение
+        :return: Ничего не возвращает (None)
+        """
+        self.__load_capacity = self.check_positive(value, "Грузоподъёмность")
 
     def delivery_cost(self, distance: int, weight: int) -> int:
         """
@@ -182,14 +224,14 @@ class Truck(Transport):
                              + str(self.__load_capacity) + " т")
         return distance * weight * TRUCK_RATE
 
-    def describe(self) -> str:
+    def __str__(self) -> str:
         """
         Добавляет к характеристикам грузоподъёмность.
 
         :return: Строка родителя и грузоподъёмность
         """
-        return (super().describe() + ", грузоподъёмность "
-                + str(self.__load_capacity) + " т")
+        capacity = f"грузоподъёмность {self.__load_capacity} т"
+        return f"{super().__str__()}, {capacity}"
 
     @classmethod
     def from_dict(cls, data: dict) -> "Truck":
@@ -199,7 +241,8 @@ class Truck(Transport):
         :param data: Словарь с ключами speed, capacity и load_capacity
         :return: Новый грузовик
         """
-        return cls(data["speed"], data["capacity"], data["load_capacity"])
+        return cls(data.get("speed"), data.get("capacity"),
+                   data.get("load_capacity"))
 
 
 class Taxi(Transport):
@@ -216,7 +259,7 @@ class Taxi(Transport):
         :param tariff: Тариф, рублей за километр
         """
         super().__init__(speed, capacity)
-        self.__tariff = self.check_positive(tariff, "Тариф")
+        self.tariff = tariff
 
     @property
     def tariff(self) -> int:
@@ -226,6 +269,16 @@ class Taxi(Transport):
         :return: Тариф
         """
         return self.__tariff
+
+    @tariff.setter
+    def tariff(self, value: int) -> None:
+        """
+        Обновляет тариф после проверки.
+
+        :param value: Новое значение
+        :return: Ничего не возвращает (None)
+        """
+        self.__tariff = self.check_positive(value, "Тариф")
 
     def trip_cost(self, distance: int) -> int:
         """
@@ -237,14 +290,13 @@ class Taxi(Transport):
         self.check_positive(distance, "Расстояние")
         return distance * self.__tariff
 
-    def describe(self) -> str:
+    def __str__(self) -> str:
         """
         Добавляет к характеристикам тариф.
 
         :return: Строка родителя и тариф
         """
-        return (super().describe() + ", тариф " + str(self.__tariff)
-                + " руб/км")
+        return f"{super().__str__()}, тариф {self.__tariff} руб/км"
 
     @classmethod
     def from_dict(cls, data: dict) -> "Taxi":
@@ -254,22 +306,17 @@ class Taxi(Transport):
         :param data: Словарь с ключами speed, capacity и tariff
         :return: Новое такси
         """
-        return cls(data["speed"], data["capacity"], data["tariff"])
+        return cls(data.get("speed"), data.get("capacity"), data.get("tariff"))
 
 
-def main() -> None:
-    """
-    Создаёт транспорт разных видов и показывает работу классов.
-
-    :return: Ничего не возвращает (None)
-    """
+if __name__ == "__main__":
     bus = Bus(80, 40)
     bus.make_route(["Вокзал", "Рынок", "Университет"])
     truck = Truck(90, 2, 10)
     taxi = Taxi.from_dict({"speed": 120, "capacity": 4, "tariff": 35})
-    print("Через конструктор:", bus.describe())
-    print("Через конструктор:", truck.describe())
-    print("Через from_dict:", taxi.describe())
+    print("Через конструктор:", bus)
+    print("Через конструктор:", truck)
+    print("Через from_dict:", taxi)
     print("Маршрут автобуса:", bus.route)
     print("Перевозка 8 т на 150 км:", truck.delivery_cost(150, 8), "руб")
     print("Поездка на такси 12 км:", taxi.trip_cost(12), "руб")
@@ -280,10 +327,12 @@ def main() -> None:
             Transport(speed, capacity)
         except ValueError as error:
             print("  ValueError:", error)
+    bus.speed = 85
     try:
-        bus.speed = 10
-    except AttributeError as error:
-        print("  AttributeError:", error)
+        bus.speed = -10
+    except ValueError as error:
+        print("  ValueError:", error)
+    print("Скорость после попытки записать -10:", bus.speed, "км/ч")
     try:
         truck.delivery_cost(100, 12)
     except ValueError as error:
@@ -294,13 +343,10 @@ def main() -> None:
           Transport.check_positive(60, "Скорость"))
     print("  Taxi.from_dict(...) ->",
           Taxi.from_dict({"speed": 100, "capacity": 3,
-                          "tariff": 40}).describe())
+                          "tariff": 40}))
     print()
     print("Полиморфный обход списка:")
     for vehicle in [bus, truck, taxi]:
-        print(" ", vehicle.describe())
+        print(" ", vehicle)
         print("    превышает", SPEED_LIMIT, "км/ч:",
               vehicle.is_speeding(SPEED_LIMIT))
-
-
-main()
