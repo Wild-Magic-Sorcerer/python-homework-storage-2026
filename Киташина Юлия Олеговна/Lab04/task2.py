@@ -10,7 +10,9 @@ class BankAccount:
 
         :param owner: Имя владельца, непустая строка
         """
-        if not isinstance(owner, str) or not owner.strip():
+        if not isinstance(owner, str):
+            raise ValueError("Имя владельца должно быть строкой")
+        if not owner.strip():
             raise ValueError("Имя владельца должно быть непустой строкой, "
                              + "получено " + repr(owner))
         self.__owner = owner.strip()
@@ -25,8 +27,7 @@ class BankAccount:
         :param amount: Проверяемая сумма
         :return: Та же сумма, если она прошла проверку
         """
-        if (not isinstance(amount, int) or isinstance(amount, bool)
-                or amount <= 0):
+        if type(amount) is not int or amount <= 0:
             raise ValueError("Сумма должна быть целым числом больше нуля, "
                              + "получено " + repr(amount))
         return amount
@@ -55,7 +56,7 @@ class BankAccount:
 
         :return: Новый список строк, по одной на успешную операцию
         """
-        return list(self.__history)
+        return self.__history.copy()
 
     def _record(self, delta: int, text: str) -> None:
         """
@@ -119,13 +120,7 @@ class SavingsAccount(BankAccount):
         :param rate: Ставка в процентах, целое число от 1 до 100
         """
         super().__init__(owner)
-        if not isinstance(rate, int) or isinstance(rate, bool):
-            raise ValueError("Ставка должна быть целым числом, получено "
-                             + repr(rate))
-        if rate < 1 or rate > 100:
-            raise ValueError("Ставка должна быть от 1 до 100 процентов, "
-                             + "получено " + str(rate))
-        self.__rate = rate
+        self.rate = rate
 
     @property
     def rate(self) -> int:
@@ -135,6 +130,20 @@ class SavingsAccount(BankAccount):
         :return: Ставка
         """
         return self.__rate
+
+    @rate.setter
+    def rate(self, value: int) -> None:
+        """
+        Обновляет ставку после проверки.
+
+        :param value: Новое значение
+        :return: Ничего не возвращает (None)
+        """
+        if type(value) is not int:
+            raise ValueError("Ставка должна быть целым числом")
+        if not 1 <= value <= 100:
+            raise ValueError("Ставка должна быть от 1 до 100 процентов")
+        self.__rate = value
 
     def add_interest(self) -> int:
         """
@@ -180,12 +189,7 @@ class SavingsAccount(BankAccount):
         return account
 
 
-def main() -> None:
-    """
-    Открывает два счёта и показывает операции и проверки.
-
-    :return: Ничего не возвращает (None)
-    """
+if __name__ == "__main__":
     account = BankAccount.open_account("Иван", 10000)
     savings = SavingsAccount.open_account("Мария", 10000, 10)
     print("Счёт:", account.owner, account.balance)
@@ -235,6 +239,3 @@ def main() -> None:
             print(" ", item.owner + ": снято, баланс", item.balance)
         except ValueError as error:
             print(" ", item.owner + ": ValueError:", error)
-
-
-main()
