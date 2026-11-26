@@ -4,16 +4,15 @@ MAX_WITHDRAW_PERCENT = 0.5
 BASE_INTEREST = 3.0
 
 class BankAccount:
+    """
+    Класс, представляющий базовый банковский счет.
+    """
     def __init__(self, owner: str, start_balance: float = 0.0):
         """
         Инициализирует банковский счет.
 
-        Параметры:
-        owner — имя владельца счета.
-        start_balance — начальный баланс.
-
-        Возвращает:
-        None
+        :param owner: Имя владельца счета.
+        :param start_balance: Начальный баланс (по умолчанию 0.0).
         """
         self._owner = owner
         self._balance = start_balance
@@ -27,11 +26,7 @@ class BankAccount:
         """
         Свойство для чтения имени владельца.
 
-        Параметры:
-        Нет.
-
-        Возвращает:
-        Имя владельца.
+        :return: Имя владельца.
         """
         return self._owner
 
@@ -40,11 +35,7 @@ class BankAccount:
         """
         Свойство для чтения текущего баланса.
 
-        Параметры:
-        Нет.
-
-        Возвращает:
-        Текущий баланс.
+        :return: Текущий баланс.
         """
         return self._balance
 
@@ -52,11 +43,7 @@ class BankAccount:
         """
         Возвращает копию истории транзакций.
 
-        Параметры:
-        Нет.
-
-        Возвращает:
-        Копию списка с историей операций.
+        :return: Копия списка с историей операций.
         """
         return self._history.copy()
 
@@ -64,11 +51,7 @@ class BankAccount:
         """
         Пополняет счет на указанную сумму.
 
-        Параметры:
-        amount — сумма пополнения.
-
-        Возвращает:
-        None
+        :param amount: Сумма пополнения.
         """
         if amount <= 0:
             raise ValueError("Сумма пополнения должна быть больше нуля.")
@@ -80,11 +63,7 @@ class BankAccount:
         """
         Снимает деньги со счета.
 
-        Параметры:
-        amount — сумма для снятия.
-
-        Возвращает:
-        None
+        :param amount: Сумма для снятия.
         """
         if amount <= 0:
             raise ValueError("Сумма снятия должна быть больше нуля.")
@@ -95,15 +74,12 @@ class BankAccount:
         self._history.append(f"Снятие: -{amount}")
 
     @classmethod
-    def build_from_dict(cls, data: dict[str, object]) -> "BankAccount":
+    def build_from_dict(cls, data: dict) -> "BankAccount":
         """
         Создает объект счета из словаря.
 
-        Параметры:
-        data — словарь с данными владельца и баланса.
-
-        Возвращает:
-        Новый экземпляр банковского счета.
+        :param data: Словарь с данными владельца и баланса.
+        :return: Новый экземпляр банковского счета.
         """
         owner = str(data.get("owner", "Неизвестно"))
         balance = float(data.get("balance", 0.0))
@@ -111,43 +87,42 @@ class BankAccount:
 
 
 class SavingsAccount(BankAccount):
+    """
+    Класс, представляющий сберегательный счет с начислением процентов.
+    Наследует BankAccount.
+    """
     def __init__(self, owner: str, start_balance: float = 0.0, rate: float = BASE_INTEREST):
         """
         Инициализирует сберегательный счет.
 
-        Параметры:
-        owner — имя владельца счета.
-        start_balance — начальный баланс.
-        rate — процентная ставка.
-
-        Возвращает:
-        None
+        :param owner: Имя владельца счета.
+        :param start_balance: Начальный баланс.
+        :param rate: Процентная ставка.
         """
         super().__init__(owner, start_balance)
-        self.rate = rate
+        self._rate = rate
+
+    @property
+    def rate(self) -> float:
+        """
+        Свойство для чтения процентной ставки.
+
+        :return: Процентная ставка.
+        """
+        return self._rate
 
     def add_percents(self) -> None:
         """
         Начисляет проценты на текущий баланс.
-
-        Параметры:
-        Нет.
-
-        Возвращает:
-        None
         """
         profit = self.balance * (self.rate / 100)
         self.add_funds(profit)
 
     def take_funds(self, amount: float) -> None:
         """
-        Снимает деньги со сберегательного счета с учетом лимита.
+        Снимает деньги со сберегательного счета с учетом лимита (не более 50%).
 
-        Параметры:
-        amount — сумма для снятия.
-
-        Возвращает:
-        None
+        :param amount: Сумма для снятия.
         """
         limit = self.balance * MAX_WITHDRAW_PERCENT
         if amount > limit:
@@ -186,10 +161,10 @@ if __name__ == '__main__':
         print(record)
 
     print("\n5. Полиморфное поведение метода снятия денег")
-    accounts = [
+    accounts = (
         BankAccount("Обычный", 1000.0),
         SavingsAccount("Сберегательный", 1000.0)
-    ]
+    )
 
     for acc in accounts:
         print(f"\nПопытка снять 600 со счета '{acc.owner}'...")
